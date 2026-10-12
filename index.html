@@ -4,7 +4,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timetable Generator</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url(https://fonts.googleapis.com/css2?family=Roboto);
+
+        body {
+            font-family: Roboto;
+            background-color: yellow;
+            line-height: 1.6;
+            margin: auto;
+            margin-top: 30px;
+            padding-top: 60px;
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .setting {
+            background-color: rgba(223, 220, 227, 0);
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 1.2% 10px;
+            display: inline-block;
+        }
+
+        .mainContent {
+            margin-left: 5px;
+            margin-right: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .pagelink {
+            background-color: rgba(223, 220, 227, 0);
+            color: white;
+            text-decoration: none;
+            padding: 1.2% 15px;
+            display: inline-block;
+        }
+
+        .info {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            background-color: rgba(223,220,227,0);
+        }
+
+        .pagelink:hover {
+            background-color: rgba(223,220,227,0.5);
+            border-bottom: 5px solid black;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: royalblue;
+            height: 60px;
+            text-align: right;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            border-bottom: 3px solid black;
+            z-index: 1000;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .tagline {
+            color: #777;
+            font-style: italic;
+        }
+
+        .introduction {
+            margin-bottom: 20px;
+        }
+
+        .options a.button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: deepskyblue; 
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .options a.button:hover {
+            background-color: blueviolet;
+        }
+
+        form {
+            text-align: center;
+            margin: auto;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.5);
+            width: 40%;
+        }
+
+        h1 {
+            text-decoration: underline;
+        }
+
+        /* --- Print & Custom Table Matching Elements --- */
+        .print-btn-container {
+            text-align: center;
+            margin: 15px 0;
+            display: none; /* Hidden until a file is loaded */
+        }
+
+        .print-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: deepskyblue;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .print-btn:hover {
+            background-color: blueviolet;
+        }
+
+        /* Standard Timetable Grid Styling Matching Original Layout Expectation */
+        .timetable-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            margin-top: 15px;
+        }
+
+        .timetable-table th, .timetable-table td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .timetable-table th {
+            background-color: royalblue;
+            color: white;
+        }
+
+        .timetable-cell {
+            padding: 6px;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .timetable-cell p {
+            margin: 4px 0 0 0;
+            white-space: pre-wrap;
+            font-size: 0.85em;
+        }
+
+        /* Print Media Target Adjustments */
+        @media print {
+            body {
+                background-color: white !important;
+                margin: 0;
+                padding-top: 0;
+                margin-top: 0;
+            }
+            nav, .timetable-upload-container, .print-btn-container {
+                display: none !important;
+            }
+            .mainContent {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .timetable-table th {
+                background-color: #333 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .timetable-cell {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -16,122 +213,126 @@
     </nav>
 
     <header>
-        <h1>Timetable System</h1>
-        <p class="tagline">Upload your configurations to view your active schedule</p>
+        <h1>My Timetable</h1>
     </header>
 
-    <!-- Upload Engine Area -->
-    <div class="timetable-upload-container">
-        <h3>Load Timetable File</h3>
-        <p class="tagline">Select your base64-encoded .json timetable file to instantly map out your schedule blocks.</p>
-        <label for="timetableFile" class="upload-btn">Choose JSON File</label>
-        <input type="file" id="timetableFile" accept=".json" style="display: none;">
-        <div id="uploadStatus" style="margin-top: 15px; font-weight: bold;"></div>
+    <div class="mainContent">
+        <!-- Interactive Upload Framework Container -->
+        <form id="uploadForm" onsubmit="event.preventDefault();" style="padding: 20px; margin-bottom: 20px;">
+            <h3>Load Timetable File</h3>
+            <p class="tagline">Select your base64-encoded .json timetable file configuration</p>
+            <input type="file" id="timetableFile" accept=".json" style="margin: 10px 0;">
+            <div id="uploadStatus" style="font-weight: bold; margin-top: 10px;"></div>
+        </form>
+
+        <!-- Printable Save Trigger Block -->
+        <div id="printBtnContainer" class="print-btn-container">
+            <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+        </div>
+
+        <!-- Render Target Dynamic Matrix Node -->
+        <div id="timetableDisplay"></div>
     </div>
 
-    <!-- Container Area Where Timetable Will Be Generated -->
-    <div id="timetableSection" class="mainContent">
-        <!-- JavaScript loads layout output dynamically here -->
-    </div>
-
-    <!-- --- Integrated Upload, Decode & Render Logic Engine --- -->
     <script>
         document.getElementById('timetableFile').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const statusDiv = document.getElementById('uploadStatus');
+            const printBtnDiv = document.getElementById('printBtnContainer');
+            const displayDiv = document.getElementById('timetableDisplay');
             
             if (!file) return;
 
             statusDiv.style.color = "black";
-            statusDiv.textContent = "Processing configuration data...";
+            statusDiv.textContent = "Processing layout configuration...";
 
             const reader = new FileReader();
             reader.onload = function(event) {
                 try {
-                    // 1. Parse outer JSON config file framework 
                     const outerData = JSON.parse(event.target.result);
                     
                     if (!outerData.secureData) {
-                        throw new Error("Invalid schema format: Missing core 'secureData' reference field.");
+                        throw new Error("Missing 'secureData' wrapping element property field context.");
                     }
 
-                    // 2. Clear out encrypted string wrapping arrays via base64 decryption (atob)
+                    // Decode base64 stream back into raw schema text string array elements
                     const decodedString = atob(outerData.secureData);
+                    const timetableData = JSON.parse(decodedString);
                     
-                    // 3. Structural mapping directly to application variables 
-                    const timetableArray = JSON.parse(decodedString);
-                    
-                    // 4. Fire dynamic layout compilation 
-                    renderTimetable(timetableArray);
+                    // Fire layout parsing mapping pipeline matrix loop logic
+                    renderGrid(timetableData);
                     
                     statusDiv.style.color = "green";
-                    statusDiv.textContent = "✓ Configuration applied successfully!";
+                    statusDiv.textContent = "✓ Timetable configuration rendered successfully.";
+                    printBtnDiv.style.display = "block"; // Expose print action control node button elements
                 } catch (error) {
                     console.error(error);
                     statusDiv.style.color = "red";
-                    statusDiv.textContent = "Error: Invalid data format or broken base64 schema payload string detected.";
+                    statusDiv.textContent = "Error: Invalid file mapping configuration structure.";
+                    printBtnDiv.style.display = "none";
+                    displayDiv.innerHTML = "";
                 }
             };
 
             reader.readAsText(file);
         });
 
-        function renderTimetable(data) {
-            const container = document.getElementById('timetableSection');
+        function renderGrid(data) {
+            const displayDiv = document.getElementById('timetableDisplay');
             
-            // Re-render baseline structural nodes
-            container.innerHTML = "<h2 style='text-align: center; text-decoration: underline;'>My Timetable</h2>";
-
             if (!data || data.length === 0) {
-                container.innerHTML += "<p style='text-align: center;'>No core schedules matched.</p>";
+                displayDiv.innerHTML = "<p>No active schedule array instances captured inside config file data.</p>";
                 return;
             }
 
-            // Begin framework mapping for schedule layout table matrices
-            let tableHtml = `
-                <div class="timetable-responsive-wrapper">
-                    <table class="timetable-grid">
-                        <thead>
-                            <tr>
-                                <th>Period</th>
-                                <th>Time window</th>
-                                <th>Assigned Modules / Classes</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
+            // Establish columns matrix format maps explicitly to slots layout
+            let html = `
+                <table class="timetable-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Period</th>
+                            <th style="width: 20%;">Time</th>
+                            <th>Slots</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
 
             data.forEach(row => {
-                // Compile specific target properties contained in slots collection
-                let slotsHtml = row.slots.map(slot => {
-                    if (!slot.className && !slot.details) return '';
-                    
-                    // Handle and replace linebreaks cleanly inside parameters
-                    const formattedDetails = (slot.details || '').replace(/\n/g, '<br>').replace(/\n/g, '<br>');
-                    const bgStyle = slot.bg ? `style="background-color: ${slot.bg};"` : '';
-
-                    return `
-                        <div class="slot-badge" ${bgStyle}>
-                            <strong>${slot.className || 'Class Module'}</strong>
-                            <p>${formattedDetails}</p>
-                        </div>
-                    `;
-                }).join('');
-
-                // Check condition fallback for open or unassigned period spaces
-                if (!slotsHtml.trim()) {
-                    slotsHtml = `<span class="empty-period">No Active Lessons Scheduled</span>`;
+                let cellHtmlArray = [];
+                
+                if (row.slots && row.slots.length > 0) {
+                    row.slots.forEach(slot => {
+                        // Include nodes that contain either structural parameters
+                        if (slot.className || slot.details) {
+                            const bgStyle = slot.bg ? `style="background-color: ${slot.bg};"` : '';
+                            cellHtmlArray.push(`
+                                <div class="timetable-cell" ${bgStyle}>
+                                    <strong>${slot.className || ''}</strong>
+                                    <p>${slot.details || ''}</p>
+                                </div>
+                            `);
+                        }
+                    });
                 }
 
-                tableHtml += `
+                // If period configuration properties contain empty slot values
+                let finalSlotsMarkup = cellHtmlArray.join('');
+                if (!finalSlotsMarkup.trim()) {
+                    finalSlotsMarkup = '<span style="color: #777; font-style: italic;">No Active Lesson Blocks</span>';
+                }
+
+                html += `
                     <tr>
-                        <td class="cell-period"><strong>${row.period}</strong></td>
-                        <td class="cell-time">${row.time}</td>
-                        <td class="cell-slots">${slotsHtml}</td>
-                    </tr>`;
+                        <td><strong>${row.period}</strong></td>
+                        <td>${row.time}</td>
+                        <td>${finalSlotsMarkup}</td>
+                    </tr>
+                `;
             });
 
-            tableHtml += `</tbody></table></div>`;
-            container.innerHTML += tableHtml;
+            html += `</tbody></table>`;
+            displayDiv.innerHTML = html;
         }
     </script>
 </body>
