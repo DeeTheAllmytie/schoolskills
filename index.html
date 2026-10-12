@@ -138,7 +138,7 @@ function cleanTimeFormat(timeStr) {
 }
 
 function populateTimetable(data) {
-    const table = document.querySelector('table'); 
+    const table = document.querySelector('table') || document.querySelector('.grid-container'); 
     if (!table) {
         alert("Timetable grid container table not found.");
         return;
@@ -146,13 +146,13 @@ function populateTimetable(data) {
 
     data.forEach((row) => {
         const periodName = row.period;
-        // Apply text cleaning step to the time key
         const periodTime = cleanTimeFormat(row.time);   
         const slots = row.slots;       
 
         let targetRow = null;
         const rows = table.querySelectorAll('tr');
 
+        // Look for the row that corresponds to this period
         rows.forEach(r => {
             const firstCell = r.querySelector('td:first-child, th:first-child');
             if (firstCell) {
@@ -173,16 +173,18 @@ function populateTimetable(data) {
         });
 
         if (targetRow) {
-            // Locate the small time label slot underneath the "P1" block text inside cell 1
-            const timeLabel = targetRow.querySelector('td:first-child div, td:first-child p, td:first-child span') || targetRow.querySelector('td:first-child');
-            if (timeLabel && timeLabel !== targetRow.querySelector('td:first-child')) {
-                timeLabel.textContent = periodTime;
-            } else if (timeLabel) {
-                // Fallback for simple flat structures text blocks
-                const innerHTMLParts = timeLabel.innerHTML.split('<br>');
-                if (innerHTMLParts.length > 0) {
-                    timeLabel.innerHTML = `${innerHTMLParts[0]}<br><span style="font-size: 11px; font-weight: normal; display: block; margin-top: 4px;">${periodTime}</span>`;
-                }
+            // Target the very first cell in the row (the one containing P1, P2, etc.)
+            const firstCell = targetRow.querySelector('td:first-child, th:first-child');
+            if (firstCell) {
+                // Find the short code text (e.g., extracts "P1", "P2", etc.)
+                const match = firstCell.textContent.match(/P\d+/i) || [periodName];
+                const cleanPeriodLabel = match[0].toUpperCase();
+
+                // Re-write the cell cleanly to format the period label and inject the new time block
+                firstCell.innerHTML = `
+                    <div style="font-weight: bold; font-size: 14px; margin-bottom: 2px;">${cleanPeriodLabel}</div>
+                    <div style="font-size: 10px; color: #666; font-weight: normal; line-height: 1.2; white-space: nowrap;">${periodTime}</div>
+                `;
             }
 
             // Target remaining block slots across columns (Day 1 through Day 10)
@@ -206,6 +208,7 @@ function populateTimetable(data) {
             });
         }
     });
+
 }
 </script>
 
