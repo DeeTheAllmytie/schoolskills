@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Roboto);
 
 body {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     background-color: yellow;
     line-height: 1.6;
     margin: auto;
@@ -24,8 +24,8 @@ body {
 }
 
 .mainContent {
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 15px;
+    margin-right: 15px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -57,13 +57,11 @@ nav {
     display: flex; /* Enable Flexbox for the nav container */
     justify-content: space-between; /* Puts space between the two main divs */
     align-items: center; /* Vertically aligns items in the middle */
-    padding: 0 15px; /* Add some horizontal padding to the nav bar */
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: royalblue;
     height: 60px; /* Set a fixed height for consistency */
     text-align: right;
-    padding: 0px;
     position: fixed; /* Keeps it at the top of the viewport */
     width: 100%;
     top: 0; /* Make sure it's explicitly at the very top */
@@ -78,15 +76,16 @@ header {
 }
 
 .tagline {
-    color: #777;
+    color: #555;
     font-style: italic;
 }
 
 .introduction {
     margin-bottom: 20px;
+    text-align: center;
 }
 
-.options a.button {
+.options a.button, .options .upload-btn-label {
     display: inline-block;
     padding: 10px 20px;
     background-color: deepskyblue; 
@@ -94,9 +93,14 @@ header {
     text-decoration: none;
     border-radius: 5px;
     margin-right: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    user-select: none;
 }
 
-.options a.button:hover {
+.options a.button:hover, .options .upload-btn-label:hover {
     background-color: blueviolet;
 }
 
@@ -110,4 +114,84 @@ form {
 
 h1 {
     text-decoration: underline;
+}
+
+/* ==========================================================================
+   NEW ADDITIONS: Timetable Visual Table Rendering Engine Styling 
+   ========================================================================== */
+
+.timetable-card-frame {
+    border: 3px solid black;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 20px;
+    margin-top: 25px;
+}
+
+.timetable-card-frame legend h2 {
+    margin: 0;
+    padding: 0 10px;
+    background-color: yellow;
+    border: 3px solid black;
+    border-radius: 6px;
+}
+
+.placeholder-text {
+    text-align: center;
+    color: #555;
+    font-style: italic;
+    padding: 30px 0;
+}
+
+.imported-timetable-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border: 3px solid black;
+    box-shadow: 4px 4px 0px rgba(0,0,0,1);
+}
+
+.imported-timetable-table th, 
+.imported-timetable-table td {
+    border: 2px solid black;
+    padding: 12px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.imported-timetable-table th {
+    background-color: royalblue;
+    color: white;
+    min-width: 110px;
+}
+
+.period-name {
+    font-weight: bold;
+    font-size: 1.05rem;
+    text-transform: capitalize;
+}
+
+.period-time {
+    font-size: 0.8rem;
+    color: #e0e0e0;
+    margin-top: 4px;
+}
+
+.cell-class-name {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+.cell-class-details {
+    font-size: 0.85rem;
+    color: #333333;
+    white-space: pre-line;
+}
+
+.empty-slot-marker {
+    color: #bbb;
+    display: inline-block;
+    padding-top: 6px;
 }
