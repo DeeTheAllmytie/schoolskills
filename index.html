@@ -93,6 +93,124 @@
     </div>
     <div class="controls">   
         <button class="print-btn" onclick="handlePrint()">Print / Save as PDF</button>
+        <!-- Place this next to your "Print / Save as PDF" button -->
+<div style="margin: 10px 0; display: inline-block;">
+    <input type="file" id="timetableUpload" accept=".json" style="display: none;">
+    <button onclick="document.getElementById('timetableUpload').click()" style="background-color: #4CAF50; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        Upload JSON Timetable
+    </button>
+</div>
+
+<script>
+document.getElementById('timetableUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const rawData = JSON.parse(e.target.result);
+            
+            // Your bookmark exports data inside a Base64-encoded "secureData" string
+            if (!rawData.secureData) {
+                alert("Invalid file format: 'secureData' field missing.");
+                return;
+            }
+
+            // Decode Base64 and parse the underlying timetable array
+            const decodedString = atob(rawData.secureData);
+            const timetableData = JSON.parse(decodedString);
+
+            populateTimetable(timetableData);
+        } catch (error) {
+            console.error(error);
+            alert("Error parsing JSON file. Make sure it's the correct file from your bookmark.");
+        }
+    };
+    reader.readAsText(file);
+});
+
+function populateTimetable(data) {
+    // Find your timetable grid/table element container
+    // Adjust this selector if your actual table has a specific ID or class
+    const table = document.querySelector('table') || document.querySelector('.grid-container'); 
+    if (!table) {
+        alert("Timetable container element not found on page.");
+        return;
+    }
+
+    // Process each period row coming from your JSON data
+    data.forEach((row) => {
+        const periodName = row.period; // e.g., "Period 1", "Pastoral"
+        const periodTime = row.time;   // e.g., "8:50am–9:40am"
+        const slots = row.slots;       // Array of 10 slots representing Day 1 to Day 10
+
+        // Find the matching row in your HTML table structure.
+        // We match rows based on text hints like "P1", "P2", "P3", or the explicit index.
+        let targetRow = null;
+        const rows = table.querySelectorAll('tr');
+
+        rows.forEach(r => {
+            const firstCell = r.querySelector('td:first-child, th:first-child');
+            if (firstCell) {
+                const text = firstCell.textContent.toLowerCase();
+                
+                // Normalizes matching (e.g., matching JSON "Period 1" to HTML cell displaying "P1")
+                if (
+                    (periodName.toLowerCase().includes('1') && text.includes('p1')) ||
+                    (periodName.toLowerCase().includes('2') && text.includes('p2')) ||
+                    (periodName.toLowerCase().includes('3') && text.includes('p3')) ||
+                    (periodName.toLowerCase().includes('4') && text.includes('p4')) ||
+                    (periodName.toLowerCase().includes('5') && text.includes('p5')) ||
+                    (periodName.toLowerCase().includes('6') && text.includes('p6')) ||
+                    (periodName.toLowerCase().includes('7') && text.includes('p7')) ||
+                    text.includes(periodName.toLowerCase())
+                ) {
+                    targetRow = r;
+                }
+            }
+        });
+
+        // If a row matches, populate the sub-time label and columns
+        if (targetRow) {
+            // Update time label inside the first cell if applicable
+            const timeLabel = targetRow.querySelector('td:first-child div, td:first-child small');
+            if (timeLabel) {
+                timeLabel.textContent = periodTime;
+            } else {
+                // Alternately look for explicit line breaks or text replacement targets
+                const firstCell = targetRow.querySelector('td:first-child');
+                if (firstCell && firstCell.innerHTML.includes('<br>')) {
+                    const parts = firstCell.innerHTML.split('<br>');
+                    firstCell.innerHTML = `${parts[0]}<br><span style="font-size:11px; opacity:0.7;">${periodTime}</span>`;
+                }
+            }
+
+            // Fill columns (Day 1 through Day 10 elements)
+            const cells = targetRow.querySelectorAll('td:not(:first-child)');
+            slots.forEach((slot, index) => {
+                if (cells[index]) {
+                    if (slot.className) {
+                        // Apply styling and content from JSON
+                        cells[index].style.backgroundColor = slot.bg || '#ffffff';
+                        cells[index].style.padding = '8px';
+                        cells[index].style.fontSize = '12px';
+                        
+                        // Replace line breaks from details string gracefully
+                        const detailedText = slot.details ? slot.details.replace(/\n/g, '<br>') : '';
+                        cells[index].innerHTML = `<strong>${slot.className}</strong><br><span style="font-size:10px; color:#555;">${detailedText}</span>`;
+                    } else {
+                        // Keep slot blank/hyphenated if data is empty
+                        cells[index].textContent = '-';
+                        cells[index].style.backgroundColor = '';
+                    }
+                }
+            });
+        }
+    });
+}
+</script>
+
         <span id="saveStatus" style="color: green; font-size: 0.8em;"></span>
     </div>
     <h1>My Timetable</h1>
