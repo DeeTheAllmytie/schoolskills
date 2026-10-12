@@ -9,7 +9,7 @@
 <body>
 
     <!-- Top Navigation Bar -->
-    <nav>
+    <nav class="no-print">
         <div class="nav-links">
             <a href="#" class="pagelink">Timetable Generator</a>
             <a href="#" class="pagelink">(NEW) Flashcard Generator</a>
@@ -21,15 +21,15 @@
 
     <!-- Main App Content -->
     <div class="mainContent">
-        <header>
+        <header class="no-print">
             <h1>Timetable Generator</h1>
             <p class="tagline">Organise, import, and print your weekly academic schedule cleanly.</p>
         </header>
 
-        <section class="introduction">
+        <section class="introduction no-print">
             <!-- Action Options Panel -->
             <div class="options">
-                <!-- Existing action button -->
+                <!-- Direct print controller triggers target print frame context -->
                 <a href="#" class="button" onclick="window.print(); return false;">Print / Save as PDF</a>
                 
                 <!-- NEW Integrated Upload Button Style Trigger -->
@@ -44,36 +44,53 @@
             </div>
         </section>
 
-        <!-- Timetable Target Frame Area -->
-        <fieldset class="timetable-card-frame">
-            <legend><h2># My Timetable</h2></legend>
+        <!-- Timetable Target Frame Area (Isolated for Printing Context) -->
+        <fieldset class="timetable-card-frame printable-area">
+            <legend class="no-print"><h2># My Timetable</h2></legend>
             <div id="timetable-grid-output">
                 <p class="placeholder-text">No active data loaded. Click "Upload Timetable JSON" above to parse your exported grid schedule.</p>
             </div>
         </fieldset>
     </div>
 
-    <!-- Extraction JavaScript Decryption Engine Core Layer -->
+    <!-- Manual Inline Editor Modal Container -->
+    <div id="subject-editor-modal" class="modal-overlay no-print" style="display: none;">
+        <div class="modal-content">
+            <h3>Modify Class Assignment</h3>
+            <label for="modal-input-name">Subject Title:</label>
+            <input type="text" id="modal-input-name" placeholder="e.g. Mathematics, English">
+            
+            <label for="modal-input-details">Location & Details:</label>
+            <textarea id="modal-input-details" rows="3" placeholder="e.g. Room 102, Dr Smith"></textarea>
+            
+            <div class="modal-actions">
+                <button type="button" id="modal-save-btn" class="modal-btn save">Apply Updates</button>
+                <button type="button" id="modal-clear-btn" class="modal-btn clear">Clear Cell</button>
+                <button type="button" id="modal-cancel-btn" class="modal-btn cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Extraction JavaScript Decryption & Interactive Modification Core Engine -->
     <script>
+        let currentEditingCell = null;
+
         document.getElementById('timetable-upload-input').addEventListener('change', function(event) {
-            const file = event.target.files[0];
+            const file = event.target.files;
             if (!file) return;
 
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    // 1. Process base structural file wrapper
                     const outerPayload = JSON.parse(e.target.result);
                     if (!outerPayload.secureData) {
                         alert("Invalid layout template: Missing embedded sequence.");
                         return;
                     }
 
-                    // 2. Safely decode the Base64 sequence matching your bookmarklet parameters
                     const rawDecodedStr = decodeURIComponent(escape(atob(outerPayload.secureData)));
                     const parsedDataGrid = JSON.parse(rawDecodedStr);
 
-                    // 3. Dispatch to structural element builder
                     renderImportedGridTable(parsedDataGrid);
                 } catch (err) {
                     console.error("Layout reading error:", err);
@@ -85,7 +102,7 @@
 
         function renderImportedGridTable(dataset) {
             const targetContainer = document.getElementById('timetable-grid-output');
-            targetContainer.innerHTML = ''; // Wipe prior placeholders or obsolete tables
+            targetContainer.innerHTML = ''; 
 
             if (!dataset || dataset.length === 0) {
                 targetContainer.innerHTML = '<p class="placeholder-text">The imported configuration data grid is empty.</p>';
@@ -98,23 +115,30 @@
             dataset.forEach(periodRow => {
                 const tr = document.createElement('tr');
                 
-                // Construct the dynamic row text header cell (Period title & Time segment)
                 const th = document.createElement('th');
                 th.innerHTML = `<div class="period-name">${periodRow.period}</div><div class="period-time">${periodRow.time}</div>`;
                 tr.appendChild(th);
 
-                // Construct columns for corresponding slots
                 periodRow.slots.forEach(slotItem => {
                     const td = document.createElement('td');
+                    td.className = 'interactive-slot-cell';
                     if (slotItem.bg) {
                         td.style.backgroundColor = slotItem.bg;
+                        td.setAttribute('data-original-bg', slotItem.bg);
                     }
 
+                    // Check if content exists to fill block
                     if (slotItem.className) {
                         td.innerHTML = `<div class="cell-class-name">${slotItem.className}</div><div class="cell-class-details">${slotItem.details || ''}</div>`;
                     } else {
                         td.innerHTML = `<span class="empty-slot-marker">—</span>`;
                     }
+
+                    // Click event processing trigger for modification interface
+                    td.addEventListener('click', function() {
+                        openCellEditor(td);
+                    });
+
                     tr.appendChild(td);
                 });
 
@@ -122,6 +146,54 @@
             });
 
             targetContainer.appendChild(nativeTable);
+        }
+
+        // Editor Dialog Pipeline Logic Handles
+        function openCellEditor(cellElement) {
+            currentEditingCell = cellElement;
+            const nameEl = cellElement.querySelector('.cell-class-name');
+            const detailsEl = cellElement.querySelector('.cell-class-details');
+
+            document.getElementById('modal-input-name').value = nameEl ? nameEl.innerText : '';
+            document.getElementById('modal-input-details').value = detailsEl ? detailsEl.innerText : '';
+
+            document.getElementById('subject-editor-modal').style.display = 'flex';
+        }
+
+        document.getElementById('modal-save-btn').addEventListener('click', function() {
+            if (!currentEditingCell) return;
+            const inputName = document.getElementById('modal-input-name').value.trim();
+            const inputDetails = document.getElementById('modal-input-details').value.trim();
+
+            if (inputName) {
+                currentEditingCell.innerHTML = `<div class="cell-class-name">${inputName}</div><div class="cell-class-details">${inputDetails}</div>`;
+                // Add soft placeholder background color if not explicitly defined by file payload configurations
+                if (!currentEditingCell.style.backgroundColor) {
+                    currentEditingCell.style.backgroundColor = 'rgba(0, 191, 255, 0.15)';
+                }
+            } else {
+                clearActiveCellContent(currentEditingCell);
+            }
+            closeCellEditor();
+        });
+
+        document.getElementById('modal-clear-btn').addEventListener('click', function() {
+            if (!currentEditingCell) return;
+            clearActiveCellContent(currentEditingCell);
+            closeCellEditor();
+        });
+
+        document.getElementById('modal-cancel-btn').addEventListener('click', closeCellEditor);
+
+        function clearActiveCellContent(cell) {
+            cell.innerHTML = `<span class="empty-slot-marker">—</span>`;
+            cell.style.backgroundColor = '';
+            cell.removeAttribute('data-original-bg');
+        }
+
+        function closeCellEditor() {
+            document.getElementById('subject-editor-modal').style.display = 'none';
+            currentEditingCell = null;
         }
     </script>
 </body>
