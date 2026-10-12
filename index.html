@@ -103,7 +103,7 @@
 
 <script>
 document.getElementById('timetableUpload').addEventListener('change', function(event) {
-    const file = event.target.files[0];
+    const file = event.target.files;
     if (!file) return;
 
     const reader = new FileReader();
@@ -128,13 +128,21 @@ document.getElementById('timetableUpload').addEventListener('change', function(e
     reader.readAsText(file);
 });
 
-// Helper function to clean text string artifacts and fix dash symbols
+// Robust replacement function to guarantee clean " - " formatting
 function cleanTimeFormat(timeStr) {
     if (!timeStr) return "";
-    // Replaces broken encoding artifacts (Ã¢Â€Â“) or various alternative dashes with a clean " - "
-    let cleanStr = timeStr.replace(/Ã¢Â€Â“|â€“|—|–/g, " - ");
-    // Normalizes spaces around the dash just in case
-    return cleanStr.replace(/\s*-\s*/, " - ");
+
+    // Regular expression that finds the first timestamp (e.g., 9:40am) and the second timestamp (e.g., 10:30pm)
+    // explicitly ignoring whatever garbled characters sit between them.
+    const timeMatch = timeStr.match(/(\d{1,2}:\d{2}\s*[ap]m).*?(\d{1,2}:\d{2}\s*[ap]m)/i);
+    
+    if (timeMatch && timeMatch.length >= 3) {
+        return `${timeMatch[1].toLowerCase()} - ${timeMatch[2].toLowerCase()}`;
+    }
+
+    // Fallback: If regex didn't trip, perform an aggressive text character replacement block
+    let cleanStr = timeStr.replace(/Ã¢Â€Â“|â€“|—|–|&ndash;|&mdash;/g, " - ");
+    return cleanStr.replace(/\s*-\s*/, " - ").trim();
 }
 
 function populateTimetable(data) {
@@ -152,7 +160,7 @@ function populateTimetable(data) {
         let targetRow = null;
         const rows = table.querySelectorAll('tr');
 
-        // Look for the row that corresponds to this period
+        // Identify matching row blocks
         rows.forEach(r => {
             const firstCell = r.querySelector('td:first-child, th:first-child');
             if (firstCell) {
@@ -173,17 +181,16 @@ function populateTimetable(data) {
         });
 
         if (targetRow) {
-            // Target the very first cell in the row (the one containing P1, P2, etc.)
+            // Target first column containing the P1 / P2 period title blocks
             const firstCell = targetRow.querySelector('td:first-child, th:first-child');
             if (firstCell) {
-                // Find the short code text (e.g., extracts "P1", "P2", etc.)
                 const match = firstCell.textContent.match(/P\d+/i) || [periodName];
                 const cleanPeriodLabel = match[0].toUpperCase();
 
-                // Re-write the cell cleanly to format the period label and inject the new time block
+                // Rewrite cell contents applying sanitized and clean timestamp formatting
                 firstCell.innerHTML = `
                     <div style="font-weight: bold; font-size: 14px; margin-bottom: 2px;">${cleanPeriodLabel}</div>
-                    <div style="font-size: 10px; color: #666; font-weight: normal; line-height: 1.2; white-space: nowrap;">${periodTime}</div>
+                    <div style="font-size: 11px; color: #555; font-weight: normal; line-height: 1.2; white-space: nowrap;">${periodTime}</div>
                 `;
             }
 
@@ -192,7 +199,6 @@ function populateTimetable(data) {
             slots.forEach((slot, index) => {
                 if (cells[index]) {
                     if (slot.className) {
-                        // Apply layout requirements: Only color background & className text contents
                         cells[index].style.backgroundColor = slot.bg || '#ffffff';
                         cells[index].style.padding = '8px';
                         cells[index].style.fontSize = '12px';
@@ -200,7 +206,6 @@ function populateTimetable(data) {
                         
                         cells[index].innerHTML = `<strong>${slot.className}</strong>`;
                     } else {
-                        // Set standard blank default states if data node is empty
                         cells[index].textContent = '-';
                         cells[index].style.backgroundColor = '';
                     }
@@ -208,7 +213,6 @@ function populateTimetable(data) {
             });
         }
     });
-
 }
 </script>
 
