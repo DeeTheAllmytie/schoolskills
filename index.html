@@ -103,7 +103,7 @@
 
 <script>
 document.getElementById('timetableUpload').addEventListener('change', function(event) {
-    const file = event.target.files;
+    const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
@@ -128,19 +128,18 @@ document.getElementById('timetableUpload').addEventListener('change', function(e
     reader.readAsText(file);
 });
 
-// Robust replacement function to guarantee clean " - " formatting
+// Fixed cleanTimeFormat function without the breaking code typo
 function cleanTimeFormat(timeStr) {
     if (!timeStr) return "";
 
-    // Regular expression that finds the first timestamp (e.g., 9:40am) and the second timestamp (e.g., 10:30pm)
-    // explicitly ignoring whatever garbled characters sit between them.
+    // Safely scans for the digits block patterns, avoiding code crash errors
     const timeMatch = timeStr.match(/(\d{1,2}:\d{2}\s*[ap]m).*?(\d{1,2}:\d{2}\s*[ap]m)/i);
     
     if (timeMatch && timeMatch.length >= 3) {
         return `${timeMatch[1].toLowerCase()} - ${timeMatch[2].toLowerCase()}`;
     }
 
-    // Fallback: If regex didn't trip, perform an aggressive text character replacement block
+    // Direct string character replacement fallback
     let cleanStr = timeStr.replace(/Ã¢Â€Â“|â€“|—|–|&ndash;|&mdash;/g, " - ");
     return cleanStr.replace(/\s*-\s*/, " - ").trim();
 }
