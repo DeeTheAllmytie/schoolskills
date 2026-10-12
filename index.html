@@ -2,199 +2,165 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timetable Generator</title>
-    <link rel="stylesheet" href="main.css">
+    <link href="fontawesome/css/fontawesome.css" rel="stylesheet" />
+      <link href="fontawesome/css/brands.css" rel="stylesheet" />
+      <link href="fontawesome/css/solid.css" rel="stylesheet" />
+      <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', sans-serif; background-color: #8f70d1; }
+        .container { display: flex; flex-direction: column; height: 100vh; width: 100vw; background: white; padding: 10px; box-sizing: border-box; }
+        h1 { color: #003366; text-align: center; border-bottom: 2px solid black; margin: 0 0 5px 0; font-size: 1.2em; }
+        .controls { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .print-btn { background: steelblue; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        table { width: 100%; flex-grow: 1; border-collapse: collapse; border: 2px solid black; table-layout: fixed; }
+        th, td { border: 1px solid black; text-align: center; vertical-align: middle; padding: 2px; overflow: hidden; word-wrap: break-word; line-height: 1.1; }
+        
+        th { background-color: royalblue; color: white; font-size: 0.6rem; height: 35px; }
+        .period-col { background-color: #f8f9fa; font-weight: bold; width: 55px; font-size: 0.65rem; }
+        .time-input { width: 90%; font-size: 0.65rem; border: 1px solid #ccc; text-align: center; }
+
+        /* The Subject Text Styling */
+        select.subject-select { 
+            width: 100%; height: 100%; border: none; background: transparent; 
+            text-align: center; font-family: 'Roboto Condensed', sans-serif;
+            font-size: 0.7rem; appearance: none; cursor: pointer;
+            display: block; white-space: normal; /* Allows text to wrap to 2nd line */
+        }
+        .nav-links {
+            flex-grow: 1; /* Allows this div to take up available space */
+            text-align: center; /* Centers the links within this div */
+        }
+
+        nav {
+            display: flex; /* Enable Flexbox for the nav container */
+            justify-content: space-between; /* Puts space between the two main divs */
+            align-items: center; /* Vertically aligns items in the middle */
+            padding: 0 15px; /* Add some horizontal padding to the nav bar */
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: royalblue;
+            height: 60px; /* Set a fixed height for consistency */
+            text-align: right;
+            padding: 0px;
+            position: fixed; /* Keeps it at the top of the viewport */
+            width: 100%;
+            top: 0; /* Make sure it's explicitly at the very top */
+            left: 0; /* Make sure it's explicitly at the very left */
+            border-bottom: 3px solid black;
+            z-index: 1000; /* Optional: Ensures it stays on top of other content */
+        }
+
+        .pagelink {
+            background-color: rgba(223, 220, 227, 0);
+            color: white;
+            text-decoration: none;
+            padding: 1.2% 15px; /* Added some horizontal padding for better spacing */
+            display: inline-block;
+        }
+
+        .pagelink:hover {
+            background-color: rgba(223,220,227,0.5);
+            border-bottom: 5px solid black;
+        }
+
+        @media print {
+            @page { size: A5 landscape; margin: 0.2cm; }
+            .controls, .time-input { display: none !important; }
+            .time-display-print { display: block !important; font-size: 0.65rem; }
+            table { height: 90%; }
+            select.subject-select { font-weight: bold; color: black; text-transform: uppercase; font-size: 0.55rem; }
+            th { background-color: #eee !important; color: black !important; }
+        }
+    </style>
 </head>
 <body>
-
-    <!-- Top Navigation Bar -->
-    <nav class="no-print">
-        <div class="nav-links">
-            <a href="#" class="pagelink">Timetable Generator</a>
-            <a href="#" class="pagelink">(NEW) Flashcard Generator</a>
-        </div>
-        <div class="info-section">
-            <a href="#" class="setting">Settings</a>
-        </div>
-    </nav>
-
-    <!-- Main App Content -->
-    <div class="mainContent">
-        <header class="no-print">
-            <h1>Timetable Generator</h1>
-            <p class="tagline">Organise, import, and print your weekly academic schedule cleanly.</p>
-        </header>
-
-        <section class="introduction no-print">
-            <!-- Action Options Panel -->
-            <div class="options">
-                <!-- Direct print controller triggers target print frame context -->
-                <a href="#" class="button" onclick="window.print(); return false;">Print / Save as PDF</a>
-                
-                <!-- NEW Integrated Upload Button Style Trigger -->
-                <label for="timetable-upload-input" class="button upload-btn-label">
-                    <svg xmlns="http://w3.org" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px; vertical-align: middle;">
-                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                    </svg>
-                    Upload Timetable JSON
-                </label>
-                <input type="file" id="timetable-upload-input" accept=".json" style="display: none;" />
+<div class="container">
+    <div class="controls">
+        <nav>
+            <div class="nav-links">
+                <a href="index.html" class="pagelink"><i class="fa-solid fa-calendar-days"></i> Timetable Generator</a>
             </div>
-        </section>
-
-        <!-- Timetable Target Frame Area (Isolated for Printing Context) -->
-        <fieldset class="timetable-card-frame printable-area">
-            <legend class="no-print"><h2># My Timetable</h2></legend>
-            <div id="timetable-grid-output">
-                <p class="placeholder-text">No active data loaded. Click "Upload Timetable JSON" above to parse your exported grid schedule.</p>
+            <div class="nav-links">
+                <a href="cueGenerator.html" class="pagelink"><i class="fa-solid fa-book"></i></i> (NEW) Flashcard Generator</a>
             </div>
-        </fieldset>
+        </nav> 
+        <br>
+        <br>
+        <br>
     </div>
-
-    <!-- Manual Inline Editor Modal Container -->
-    <div id="subject-editor-modal" class="modal-overlay no-print" style="display: none;">
-        <div class="modal-content">
-            <h3>Modify Class Assignment</h3>
-            <label for="modal-input-name">Subject Title:</label>
-            <input type="text" id="modal-input-name" placeholder="e.g. Mathematics, English">
-            
-            <label for="modal-input-details">Location & Details:</label>
-            <textarea id="modal-input-details" rows="3" placeholder="e.g. Room 102, Dr Smith"></textarea>
-            
-            <div class="modal-actions">
-                <button type="button" id="modal-save-btn" class="modal-btn save">Apply Updates</button>
-                <button type="button" id="modal-clear-btn" class="modal-btn clear">Clear Cell</button>
-                <button type="button" id="modal-cancel-btn" class="modal-btn cancel">Cancel</button>
-            </div>
-        </div>
+    <div class="controls">   
+        <button class="print-btn" onclick="handlePrint()">Print / Save as PDF</button>
+        <span id="saveStatus" style="color: green; font-size: 0.8em;"></span>
     </div>
+    <h1>My Timetable</h1>
+    <table id="timetable">
+        <thead><tr id="dayHeaders"><th class="period-col">Period</th></tr></thead>
+        <tbody id="timetableBody"></tbody>
+    </table>
+</div>
 
-    <!-- Extraction JavaScript Decryption & Interactive Modification Core Engine -->
-    <script>
-        let currentEditingCell = null;
+<script>
+    const subjects = ["Religion", "History", "Science", "English", "Maths", "Language: Italian", "Language: Japanese", "Language: Chinese", "Music", "Digital Technologies", "Personal Social Learning", "Junior Enhancement Mathematics", "Junior Enhancement English", "Junior Enhancement Science", "Junior Enhancement History", "Sport", "Physical Education", "Art", "Homework Club", "Instrumental Music", "Design and Technologies", "Design and Materials", "Pastoral"];
+    const days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10"];
 
-        document.getElementById('timetable-upload-input').addEventListener('change', function(event) {
-            const file = event.target.files;
-            if (!file) return;
+    function init() {
+        const header = document.getElementById('dayHeaders');
+        const body = document.getElementById('timetableBody');
+        days.forEach(d => { let th = document.createElement('th'); th.innerText = d; header.appendChild(th); });
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const outerPayload = JSON.parse(e.target.result);
-                    if (!outerPayload.secureData) {
-                        alert("Invalid layout template: Missing embedded sequence.");
-                        return;
-                    }
-
-                    const rawDecodedStr = decodeURIComponent(escape(atob(outerPayload.secureData)));
-                    const parsedDataGrid = JSON.parse(rawDecodedStr);
-
-                    renderImportedGridTable(parsedDataGrid);
-                } catch (err) {
-                    console.error("Layout reading error:", err);
-                    alert("Failure parsing your file. Generate a fresh backup with the script tool.");
-                }
-            };
-            reader.readAsText(file);
-        });
-
-        function renderImportedGridTable(dataset) {
-            const targetContainer = document.getElementById('timetable-grid-output');
-            targetContainer.innerHTML = ''; 
-
-            if (!dataset || dataset.length === 0) {
-                targetContainer.innerHTML = '<p class="placeholder-text">The imported configuration data grid is empty.</p>';
-                return;
+        for (let p = 1; p <= 6; p++) {
+            let tr = document.createElement('tr');
+            tr.innerHTML = `<td class="period-col">P${p}<br><input type="text" class="time-input" placeholder="0:00"><span class="time-display-print" style="display:none"></span></td>`;
+            for (let d = 0; d < 10; d++) {
+                let td = document.createElement('td');
+                let sel = document.createElement('select');
+                sel.className = "subject-select";
+                sel.innerHTML = `<option value="">--</option>` + subjects.map(s => `<option value="${s}">${s}</option>`).join('');
+                sel.onchange = function() { adjustFont(this); save(); };
+                td.appendChild(sel);
+                tr.appendChild(td);
             }
-
-            const nativeTable = document.createElement('table');
-            nativeTable.className = 'imported-timetable-table';
-
-            dataset.forEach(periodRow => {
-                const tr = document.createElement('tr');
-                
-                const th = document.createElement('th');
-                th.innerHTML = `<div class="period-name">${periodRow.period}</div><div class="period-time">${periodRow.time}</div>`;
-                tr.appendChild(th);
-
-                periodRow.slots.forEach(slotItem => {
-                    const td = document.createElement('td');
-                    td.className = 'interactive-slot-cell';
-                    if (slotItem.bg) {
-                        td.style.backgroundColor = slotItem.bg;
-                        td.setAttribute('data-original-bg', slotItem.bg);
-                    }
-
-                    // Check if content exists to fill block
-                    if (slotItem.className) {
-                        td.innerHTML = `<div class="cell-class-name">${slotItem.className}</div><div class="cell-class-details">${slotItem.details || ''}</div>`;
-                    } else {
-                        td.innerHTML = `<span class="empty-slot-marker">—</span>`;
-                    }
-
-                    // Click event processing trigger for modification interface
-                    td.addEventListener('click', function() {
-                        openCellEditor(td);
-                    });
-
-                    tr.appendChild(td);
-                });
-
-                nativeTable.appendChild(tr);
-            });
-
-            targetContainer.appendChild(nativeTable);
+            body.appendChild(tr);
         }
+        load();
+    }
 
-        // Editor Dialog Pipeline Logic Handles
-        function openCellEditor(cellElement) {
-            currentEditingCell = cellElement;
-            const nameEl = cellElement.querySelector('.cell-class-name');
-            const detailsEl = cellElement.querySelector('.cell-class-details');
+    function adjustFont(el) {
+        // Dynamic scaling based on character count
+        const len = el.value.length;
+        if (len > 25) el.style.fontSize = "0.45rem";
+        else if (len > 15) el.style.fontSize = "0.55rem";
+        else el.style.fontSize = "0.7rem";
+    }
 
-            document.getElementById('modal-input-name').value = nameEl ? nameEl.innerText : '';
-            document.getElementById('modal-input-details').value = detailsEl ? detailsEl.innerText : '';
+    function save() {
+        const data = {
+            times: Array.from(document.querySelectorAll('.time-input')).map(i => i.value),
+            subjects: Array.from(document.querySelectorAll('.subject-select')).map(s => s.value)
+        };
+        localStorage.setItem('maz_data', JSON.stringify(data));
+        document.getElementById('saveStatus').innerText = "Saved!";
+    }
 
-            document.getElementById('subject-editor-modal').style.display = 'flex';
-        }
-
-        document.getElementById('modal-save-btn').addEventListener('click', function() {
-            if (!currentEditingCell) return;
-            const inputName = document.getElementById('modal-input-name').value.trim();
-            const inputDetails = document.getElementById('modal-input-details').value.trim();
-
-            if (inputName) {
-                currentEditingCell.innerHTML = `<div class="cell-class-name">${inputName}</div><div class="cell-class-details">${inputDetails}</div>`;
-                // Add soft placeholder background color if not explicitly defined by file payload configurations
-                if (!currentEditingCell.style.backgroundColor) {
-                    currentEditingCell.style.backgroundColor = 'rgba(0, 191, 255, 0.15)';
-                }
-            } else {
-                clearActiveCellContent(currentEditingCell);
-            }
-            closeCellEditor();
+    function load() {
+        const data = JSON.parse(localStorage.getItem('maz_data'));
+        if (!data) return;
+        document.querySelectorAll('.time-input').forEach((i, idx) => i.value = data.times[idx] || "");
+        document.querySelectorAll('.subject-select').forEach((s, idx) => {
+            s.value = data.subjects[idx] || "";
+            adjustFont(s);
         });
+    }
 
-        document.getElementById('modal-clear-btn').addEventListener('click', function() {
-            if (!currentEditingCell) return;
-            clearActiveCellContent(currentEditingCell);
-            closeCellEditor();
-        });
+    function handlePrint() {
+        document.querySelectorAll('.time-input').forEach(i => i.nextElementSibling.innerText = i.value);
+        window.print();
+    }
 
-        document.getElementById('modal-cancel-btn').addEventListener('click', closeCellEditor);
-
-        function clearActiveCellContent(cell) {
-            cell.innerHTML = `<span class="empty-slot-marker">—</span>`;
-            cell.style.backgroundColor = '';
-            cell.removeAttribute('data-original-bg');
-        }
-
-        function closeCellEditor() {
-            document.getElementById('subject-editor-modal').style.display = 'none';
-            currentEditingCell = null;
-        }
-    </script>
+    window.onload = init;
+</script>
 </body>
 </html>
