@@ -147,8 +147,8 @@ function cleanTimeFormat(timeStr) {
     }
 
     // Direct string character replacement fallback
-    let cleanStr = timeStr.replace(/Ã¢Â€Â“|â€“|—|–|&ndash;|&mdash;/g, " - ");
-    return cleanStr.replace(/\s*-\s*/, " - ").trim();
+    let cleanStr = timeStr.replace(/Ã¢Â€Â“|â€“|—|–|&ndash;|&mdash;/g, "-");
+    return cleanStr.replace(/\s*-\s*/, "-").trim();
 }
 
 function populateTimetable(data) {
