@@ -12,9 +12,9 @@
         html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', sans-serif; background-color: #8f70d1; }
         .container { display: flex; flex-direction: column; height: 100vh; width: 100vw; background: white; padding: 10px; box-sizing: border-box; }
         h1 { color: #003366; text-align: center; border-bottom: 2px solid black; margin: 0 0 5px 0; font-size: 1.2em; }
-        .controls { display: flex; margin-bottom: 5px; }
+        .controls { display: flex; justify-content: space-between; margin-bottom: 5px; }
         .print-btn { background: steelblue; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        a { background: steelblue; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        a { background: steelblue; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none;}
         
         table { width: 100%; flex-grow: 1; border-collapse: collapse; border: 2px solid black; table-layout: fixed; }
         th, td { border: 1px solid black; text-align: center; vertical-align: middle; padding: 2px; overflow: hidden; word-wrap: break-word; line-height: 1.1; }
@@ -94,6 +94,7 @@
     </div>
     <div class="controls">   
         <button class="print-btn" onclick="handlePrint()">Print / Save as PDF</button>
+        <a href="downloadusage.html">How To Use Download Timetable</a>
         <a href="javascript:(function(){var row=document.querySelector('.timetable-small');if(!row)return;var periodMap={};var currentDayIndex=-1;row.querySelectorAll('table tr').forEach(tr=>{var th=tr.querySelector('th');var subjectEl=tr.querySelector('td .timetable-subject');if(th&&subjectEl){var fullTimeText=th.innerText||'';var metaText=tr.querySelector('time.meta')?.innerText||%27%27;var periodName=fullTimeText.replace(metaText,%27%27).trim();var className=subjectEl.querySelector(%27a%27)?.innerText.trim()||%27%27;var extraDiv=subjectEl.querySelector(%27div%27);var extraText=extraDiv?extraDiv.innerText.replace(className,%27%27).trim():%27%27;var bg=subjectEl.style.backgroundColor||%27%27;if(periodName.toLowerCase().includes(%27period 0%27)){currentDayIndex++;}if(!periodMap[periodName]){periodMap[periodName]={time:metaText.trim(),slots:[]};}while(periodMap[periodName].slots.length<currentDayIndex){periodMap[periodName].slots.push({className:%27%27,details:%27%27,bg:%27%27});}periodMap[periodName].slots[currentDayIndex]={className:className,details:extraText,bg:bg};}});var cleanData=[];for(var pName in periodMap){if(periodMap.hasOwnProperty(pName)){var slotsArray=[];for(var i=0;i<=currentDayIndex;i++){slotsArray.push(periodMap[pName].slots[i]||{className:%27%27,details:%27%27,bg:%27%27});}cleanData.push({period:pName,time:periodMap[pName].time,slots:slotsArray});}}var rawStr=JSON.stringify(cleanData);var encStr=btoa(unescape(encodeURIComponent(rawStr)));var blob=new Blob([JSON.stringify({secureData:encStr},null,2)],{type:%27application/json%27});var a=document.createElement(%27a%27);a.href=URL.createObjectURL(blob);a.download=%27grid_timetable.json%27;document.body.appendChild(a);a.click();document.body.removeChild(a);})();">Download Timetable</a>
         <!-- Upload UI Component Elements -->
 <div style="margin: 10px 0; display: inline-block;">
