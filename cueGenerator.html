@@ -7,6 +7,21 @@
         <link href="fontawesome/css/brands.css" rel="stylesheet" />
         <link href="fontawesome/css/solid.css" rel="stylesheet" />
         <link rel="icon" href="icon.ico" type="image/x-icon">
+        <style>
+            table {
+                            width: 100%;
+                            border-collapse: collapse;
+                        }
+                        td {
+                            border: 2px dashed #333;
+                            height: 180px; /* Gives the cells a flashcard-like height */
+                            width: 50%;
+                            text-align: center;
+                            vertical-align: middle;
+                            padding: 10px;
+                            box-sizing: border-box;
+                        }
+        </style>
         <title>Personal Timetable Generator</title>
     </head>
     <body>
@@ -22,12 +37,12 @@
         <form onsubmit="event.preventDefault(); createFlashcard();">
             <h1>Flashcard Generator</h1>
             <table>
-                <td>Question</td><td>Answer</td>
-                <td><input type="text"></td><td><input type="text"></td>
-                <td><input type="text"></td><td><input type="text"></td>
-                <td><input type="text"></td><td><input type="text"></td>
-                <td><input type="text"></td><td><input type="text"></td>
-                <td><input type="text"></td><td><input type="text"></td>
+                <tr><td>Question</td><td>Answer</td></tr>
+                <tr><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><td><input type="text"></td><td><input type="text"></td></tr>
             </table>
             <button type="submit">Generate & Print Flashcards</button>
         </form>
