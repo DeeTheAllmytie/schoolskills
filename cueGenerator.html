@@ -1,34 +1,83 @@
+<!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="main.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="fontawesome/css/fontawesome.css" rel="stylesheet" />
-      <link href="fontawesome/css/brands.css" rel="stylesheet" />
-      <link href="fontawesome/css/solid.css" rel="stylesheet" />
+        <link href="fontawesome/css/brands.css" rel="stylesheet" />
+        <link href="fontawesome/css/solid.css" rel="stylesheet" />
         <link rel="icon" href="icon.ico" type="image/x-icon">
         <title>Personal Timetable Generator</title>
     </head>
     <body>
         <nav>
             <div class="nav-links">
-              <a href="index.html" class="pagelink"><i class="fa-solid fa-calendar-days"></i> Timetable generator</a>
-          </div>
-          <div class="nav-links">
-            <a href="cueGenerator.html" class="pagelink"><i class="fa-solid fa-book"></i></i> (NEW) Flashcard Generator</a>
-          </div>
+                <a href="index.html" class="pagelink"><i class="fa-solid fa-calendar-days"></i> Timetable generator</a>
+            </div>
+            <div class="nav-links">
+                <a href="cueGenerator.html" class="pagelink"><i class="fa-solid fa-book"></i> (NEW) Flashcard Generator</a>
+            </div>
         </nav>
 
-    <form>
-        <h1>Flashcard Generator</h1>
-        <h2>COMING SOON!</h2>
-    </form>
+        <form onsubmit="event.preventDefault(); createFlashcard();">
+            <h1>Flashcard Generator</h1>
+            <button type="submit">Generate & Print Flashcards</button>
+        </form>
 
-</body>
-    <script src="">
+    </body>
+    <script>
         function createFlashcard() {
-         var page = window.new()
-         print(page)
+            // Open a blank new window
+            var printWindow = window.open('', '_blank');
+            
+            // Build the HTML structure for the new page
+            var htmlContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Print Flashcards</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                        }
+                        td {
+                            border: 2px dashed #333;
+                            height: 180px; /* Gives the cells a flashcard-like height */
+                            width: 50%;
+                            text-align: center;
+                            vertical-align: middle;
+                            padding: 10px;
+                            box-sizing: border-box;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <table>
+                        <tr><td>Flashcard 1</td><td>Flashcard 2</td></tr>
+                        <tr><td>Flashcard 3</td><td>Flashcard 4</td></tr>
+                        <tr><td>Flashcard 5</td><td>Flashcard 6</td></tr>
+                        <tr><td>Flashcard 7</td><td>Flashcard 8</td></tr>
+                        <tr><td>Flashcard 9</td><td>Flashcard 10</td></tr>
+                    </table>
+                    <script>
+                        // Wait for the window to finish loading, then trigger the print dialogue
+                        window.onload = function() {
+                            window.print();
+                            // Optional: window.close(); // Uncomment if you want the window to self-close after printing
+                        };
+                    <\/script>
+                </body>
+                </html>
+            `;
+            
+            // Write the generated content into the new window and close the stream to finalize loading
+            printWindow.document.write(htmlContent);
+            printWindow.document.close();
         }
-
     </script>
 </html>
