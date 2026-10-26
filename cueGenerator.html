@@ -21,13 +21,6 @@
                 padding: 0px;
                 box-sizing: border-box;
             }
-            /* Changes the dividing vertical borders between columns to solid */
-            td:first-child {
-                border-right: 2px solid #333;
-            }
-            td:last-child {
-                border-left: 2px solid #333;
-            }
             input {
                 background-color: rgba(0, 0, 0, 0); /* 50% transparent black background; text stays solid */
                 width: 100%;
@@ -61,7 +54,7 @@
         </form>
 
     </body>
-    <script>
+        <script>
         function createFlashcard() {
             var rows = document.querySelectorAll('#flashcardForm .card-row');
             var tableBodyHtml = '';
@@ -131,18 +124,11 @@
                             padding: 10px;
                             box-sizing: border-box;
                         }
-                        /* Changes the dividing vertical borders between columns to solid in print output */
-                        td:first-child {
-                            border-right: 2px solid #333;
-                        }
-                        td:last-child {
-                            border-left: 2px solid #333;
-                        }
                     </style>
                 </head>
                 <body>
                     <table>
-                        \${tableBodyHtml}
+                        ${tableBodyHtml}
                     </table>
                 </body>
                 </html>
@@ -159,4 +145,5 @@
             iframe.contentWindow.print();
         }
     </script>
+
 </html>
