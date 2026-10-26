@@ -9,18 +9,18 @@
         <link rel="icon" href="icon.ico" type="image/x-icon">
         <style>
             table {
-                            width: 100%;
-                            border-collapse: collapse;
-                        }
-                        td {
-                            border: 2px dashed #333;
-                            height: 90px; /* Gives the cells a flashcard-like height */
-                            width: 50%;
-                            text-align: center;
-                            vertical-align: middle;
-                            padding: 10px;
-                            box-sizing: border-box;
-                        }
+                width: 100%;
+                border-collapse: collapse;
+            }
+            td {
+                border: 2px dashed #333;
+                height: 90px; /* Gives the cells a flashcard-like height */
+                width: 50%;
+                text-align: center;
+                vertical-align: middle;
+                padding: 10px;
+                box-sizing: border-box;
+            }
         </style>
         <title>Personal Timetable Generator</title>
     </head>
@@ -34,15 +34,16 @@
             </div>
         </nav>
 
-        <form onsubmit="event.preventDefault(); createFlashcard();">
+        <!-- Added an ID to the form to target its rows easily -->
+        <form id="flashcardForm" onsubmit="event.preventDefault(); createFlashcard();">
             <h1>Flashcard Generator</h1>
             <table>
-                <tr><td>Question</td><td>Answer</td></tr>
-                <tr><td><input type="text"></td><td><input type="text"></td></tr>
-                <tr><td><input type="text"></td><td><input type="text"></td></tr>
-                <tr><td><input type="text"></td><td><input type="text"></td></tr>
-                <tr><td><input type="text"></td><td><input type="text"></td></tr>
-                <tr><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr><th>Question</th><th>Answer</th></tr>
+                <tr class="card-row"><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr class="card-row"><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr class="card-row"><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr class="card-row"><td><input type="text"></td><td><input type="text"></td></tr>
+                <tr class="card-row"><td><input type="text"></td><td><input type="text"></td></tr>
             </table>
             <button type="submit">Generate & Print Flashcards</button>
         </form>
@@ -50,10 +51,36 @@
     </body>
     <script>
         function createFlashcard() {
+            // Find all table rows containing inputs
+            var rows = document.querySelectorAll('#flashcardForm .card-row');
+            var tableBodyHtml = '';
+
+            // Loop through each input row to extract values and build dynamic printable HTML
+            rows.forEach(function(row) {
+                var inputs = row.querySelectorAll('input[type="text"]');
+                var questionText = inputs[0].value.trim();
+                var answerText = inputs[1].value.trim();
+
+                // Only generate a printed card if at least one of the fields has text
+                if (questionText !== '' || answerText !== '') {
+                    tableBodyHtml += `
+                        <tr>
+                            <td>${questionText}</td>
+                            <td>${answerText}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            // Fallback if the user clicks print while all input boxes are completely empty
+            if (tableBodyHtml === '') {
+                tableBodyHtml = '<tr><td colspan="2">No flashcards to print. Please fill out the form.</td></tr>';
+            }
+
             // Open a blank new window
             var printWindow = window.open('', '_blank');
             
-            // Build the HTML structure for the new page
+            // Build the HTML structure for the new page using our dynamic table rows
             var htmlContent = `
                 <!DOCTYPE html>
                 <html>
@@ -81,17 +108,11 @@
                 </head>
                 <body>
                     <table>
-                        <tr><td>Flashcard 1</td><td>Flashcard 2</td></tr>
-                        <tr><td>Flashcard 3</td><td>Flashcard 4</td></tr>
-                        <tr><td>Flashcard 5</td><td>Flashcard 6</td></tr>
-                        <tr><td>Flashcard 7</td><td>Flashcard 8</td></tr>
-                        <tr><td>Flashcard 9</td><td>Flashcard 10</td></tr>
+                        ${tableBodyHtml}
                     </table>
                     <script>
-                        // Wait for the window to finish loading, then trigger the print dialogue
                         window.onload = function() {
                             window.print();
-                            // Optional: window.close(); // Uncomment if you want the window to self-close after printing
                         };
                     <\/script>
                 </body>
