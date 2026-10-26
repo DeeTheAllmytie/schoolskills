@@ -93,10 +93,10 @@
             </div
         </nav> 
     </div>
-    <br>
+    <div class="controls"> 
         <br>
         <br>
-    <div class="controls">   
+        <br>  
         <button class="print-btn" onclick="handlePrint()">Print / Save as PDF</button>
         <a href="downloadusage.html">How To Upload Your Timetable</a>
         <a href="javascript:(function(){var row=document.querySelector('.timetable-small');if(!row)return;var periodMap={};var currentDayIndex=-1;row.querySelectorAll('table tr').forEach(tr=>{var th=tr.querySelector('th');var subjectEl=tr.querySelector('td .timetable-subject');if(th&&subjectEl){var fullTimeText=th.innerText||'';var metaText=tr.querySelector('time.meta')?.innerText||%27%27;var periodName=fullTimeText.replace(metaText,%27%27).trim();var className=subjectEl.querySelector(%27a%27)?.innerText.trim()||%27%27;var extraDiv=subjectEl.querySelector(%27div%27);var extraText=extraDiv?extraDiv.innerText.replace(className,%27%27).trim():%27%27;var bg=subjectEl.style.backgroundColor||%27%27;if(periodName.toLowerCase().includes(%27period 0%27)){currentDayIndex++;}if(!periodMap[periodName]){periodMap[periodName]={time:metaText.trim(),slots:[]};}while(periodMap[periodName].slots.length<currentDayIndex){periodMap[periodName].slots.push({className:%27%27,details:%27%27,bg:%27%27});}periodMap[periodName].slots[currentDayIndex]={className:className,details:extraText,bg:bg};}});var cleanData=[];for(var pName in periodMap){if(periodMap.hasOwnProperty(pName)){var slotsArray=[];for(var i=0;i<=currentDayIndex;i++){slotsArray.push(periodMap[pName].slots[i]||{className:%27%27,details:%27%27,bg:%27%27});}cleanData.push({period:pName,time:periodMap[pName].time,slots:slotsArray});}}var rawStr=JSON.stringify(cleanData);var encStr=btoa(unescape(encodeURIComponent(rawStr)));var blob=new Blob([JSON.stringify({secureData:encStr},null,2)],{type:%27application/json%27});var a=document.createElement(%27a%27);a.href=URL.createObjectURL(blob);a.download=%27grid_timetable.json%27;document.body.appendChild(a);a.click();document.body.removeChild(a);})();">Download Timetable</a>
