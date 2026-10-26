@@ -116,6 +116,7 @@
         border-collapse: collapse;
     }
     td {
+        border: 2px dashed #333; /* Keeps the dashed border on all outer sides */
         height: 180px;
         width: 50%;
         text-align: center;
@@ -123,11 +124,15 @@
         padding: 10px;
         box-sizing: border-box;
     }
-    /* Targets the first column to add a solid, dark right border */
+    /* Changes the dividing line between the two columns to solid black */
     td:first-child {
         border-right: 2px solid #000000;
     }
+    td:last-child {
+        border-left: 2px solid #000000;
+    }
 </style>
+
                 </head>
                 <body>
                     <table>
