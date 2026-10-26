@@ -102,29 +102,32 @@
                 <head>
                     <title>Print Flashcards</title>
                     <style>
-                        /* Forces the printer layout to A4 size and strips system margins */
-                        @page {
-                            size: A4;
-                            margin: 0;
-                        }
-                        body {
-                            font-family: Arial, sans-serif;
-                            margin: 20px; /* Optional visual buffer for the text inside the page border */
-                        }
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                        }
-                        td {
-                            border: 2px dashed #333;
-                            height: 180px;
-                            width: 50%;
-                            text-align: center;
-                            vertical-align: middle;
-                            padding: 10px;
-                            box-sizing: border-box;
-                        }
-                    </style>
+    /* Forces the printer layout to A4 size and strips system margins */
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px; /* Optional visual buffer for the text inside the page border */
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    td {
+        height: 180px;
+        width: 50%;
+        text-align: center;
+        vertical-align: middle;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    /* Targets the first column to add a solid, dark right border */
+    td:first-child {
+        border-right: 2px solid #000000;
+    }
+</style>
                 </head>
                 <body>
                     <table>
