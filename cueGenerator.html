@@ -34,7 +34,6 @@
             </div>
         </nav>
 
-        <!-- Added an ID to the form to target its rows easily -->
         <form id="flashcardForm" onsubmit="event.preventDefault(); createFlashcard();">
             <h1>Flashcard Generator</h1>
             <table>
@@ -51,17 +50,14 @@
     </body>
     <script>
         function createFlashcard() {
-            // Find all table rows containing inputs
             var rows = document.querySelectorAll('#flashcardForm .card-row');
             var tableBodyHtml = '';
 
-            // Loop through each input row to extract values and build dynamic printable HTML
             rows.forEach(function(row) {
                 var inputs = row.querySelectorAll('input[type="text"]');
                 var questionText = inputs[0].value.trim();
                 var answerText = inputs[1].value.trim();
 
-                // Only generate a printed card if at least one of the fields has text
                 if (questionText !== '' || answerText !== '') {
                     tableBodyHtml += `
                         <tr>
@@ -72,15 +68,28 @@
                 }
             });
 
-            // Fallback if the user clicks print while all input boxes are completely empty
             if (tableBodyHtml === '') {
                 tableBodyHtml = '<tr><td colspan="2">No flashcards to print. Please fill out the form.</td></tr>';
             }
 
-            // Open a blank new window
-            var printWindow = window.open('', '_blank');
+            // Remove any pre-existing print iframe to prevent duplication
+            var oldFrame = document.getElementById('printFrame');
+            if (oldFrame) {
+                oldFrame.parentNode.removeChild(oldFrame);
+            }
+
+            // Create a completely hidden iframe
+            var iframe = document.createElement('iframe');
+            iframe.id = 'printFrame';
+            iframe.style.position = 'fixed';
+            iframe.style.right = '0';
+            iframe.style.bottom = '0';
+            iframe.style.width = '0';
+            iframe.style.height = '0';
+            iframe.style.border = '0';
             
-            // Build the HTML structure for the new page using our dynamic table rows
+            document.body.appendChild(iframe);
+
             var htmlContent = `
                 <!DOCTYPE html>
                 <html>
@@ -97,7 +106,7 @@
                         }
                         td {
                             border: 2px dashed #333;
-                            height: 180px; /* Gives the cells a flashcard-like height */
+                            height: 180px;
                             width: 50%;
                             text-align: center;
                             vertical-align: middle;
@@ -110,18 +119,19 @@
                     <table>
                         ${tableBodyHtml}
                     </table>
-                    <script>
-                        window.onload = function() {
-                            window.print();
-                        };
-                    <\/script>
                 </body>
                 </html>
             `;
-            
-            // Write the generated content into the new window and close the stream to finalize loading
-            printWindow.document.write(htmlContent);
-            printWindow.document.close();
+
+            // Write content directly into the hidden iframe's document context
+            var doc = iframe.contentWindow.document;
+            doc.open();
+            doc.write(htmlContent);
+            doc.close();
+
+            // Focus the frame and fire the print dialogue directly on the current tab
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
         }
     </script>
 </html>
