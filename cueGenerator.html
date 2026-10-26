@@ -48,7 +48,7 @@
         </form>
 
     </body>
-    <script>
+        <script>
         function createFlashcard() {
             var rows = document.querySelectorAll('#flashcardForm .card-row');
             var tableBodyHtml = '';
@@ -96,9 +96,14 @@
                 <head>
                     <title>Print Flashcards</title>
                     <style>
+                        /* Forces the printer layout to A4 size and strips system margins */
+                        @page {
+                            size: A4;
+                            margin: 0;
+                        }
                         body {
                             font-family: Arial, sans-serif;
-                            margin: 20px;
+                            margin: 20px; /* Optional visual buffer for the text inside the page border */
                         }
                         table {
                             width: 100%;
@@ -134,4 +139,5 @@
             iframe.contentWindow.print();
         }
     </script>
+
 </html>
