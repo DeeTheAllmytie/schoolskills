@@ -1,0 +1,941 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="gen.css">
+        <link rel="icon" href="icon.ico" type="image/x-icon">
+         <link href="fontawesome/css/fontawesome.css" rel="stylesheet" />
+      <link href="fontawesome/css/brands.css" rel="stylesheet" />
+      <link href="fontawesome/css/solid.css" rel="stylesheet" />
+        <title>Personal Timetable Generator</title>
+    </head>
+    <body>
+        <nav>
+          <div class="nav-links">
+            <a href="/index.html" class="pagelink"><i class="fa-solid fa-calendar-days"></i> Timetable generator</a>
+        </div>
+        <div class="nav-links">
+          <a href="/cueGenerator.html" class="pagelink"><i class="fa-solid fa-book"></i></i> (NEW) Flashcard Generator</a>
+        </div>
+        <div class="nav-settings">
+            <a href="settings.html" class="setting"><i class="fa-solid fa-gear"></i>  </a>
+        </div>
+        </nav>
+        <div class="mainContent">
+            <h1>Time table generator</h1>
+        <a href="index.html">Home <img src="home.png"></a>
+        <a href="select.html">Reset</a>
+
+        <div id="times" class="times">
+          <h1>Start time/End time of each period</h1>
+          <div class="period-row">
+              <label for="period1-start">Period 1:</label>
+              <input type="time" id="start" class="time-input">
+              <span>-</span>
+              <input type="time" id="end" class="time-input">
+          </div>
+          
+          <div class="period-row">
+              <label for="period2-start">Period 2:</label>
+              <input type="time" id="start" class="time-input">
+              <span>-</span>
+              <input type="time" id="end" class="time-input">
+          </div>
+
+          <div class="period-row">
+              <label for="period3-start">Period 3:</label>
+              <input type="time" id="start" class="time-input">
+              <span>-</span>
+              <input type="time" id="end" class="time-input">
+          </div>
+          
+          <div class="period-row">
+              <label for="period4-start">Period 4:</label>
+              <input type="time" id="start" class="time-input">
+              <span>-</span>
+              <input type="time" id="end" class="time-input">
+          </div>
+
+          <div class="period-row">
+              <label for="period5-start">Period 5:</label>
+              <input type="time" id="start" class="time-input">
+              <span>-</span>
+              <input type="time" id="end" class="time-input">
+          </div>
+          
+          <div class="period-row">
+              <label for="period6-start">Period 6:</label>
+              <input type="time" id="start" class="time-input">
+              <span>-</span>
+              <input type="time" id="end" class="time-input">
+          </div>
+      </div>
+
+        <div id = "days" class="days">
+            <div class="day" id="day1">
+                <h2 class="day"> Monday </h2>
+                <p>Period 1 <select class="day-input" id="period1">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+
+</select></p>
+                <p>Period 2 <select class="day-input" id="period2">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 3 <select class="day-input" id="period3">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p> 
+                <p>Period 4 <select class="day-input" id="period4">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 5 <select class="day-input" id="period5">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 6 <select class="day-input" id="period6">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+<p>Period 7 <select class="day-input" id="period7">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+            </div>
+            <div class="day" id="day2">
+                <h2 class="day"> Tuesday </h2>
+                <p>Period 1 <select class="day-input" id="period1">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 2 <select class="day-input" id="period2">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 3 <select class="day-input" id="period3">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p> 
+                <p>Period 4 <select class="day-input" id="period4">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 5 <select class="day-input" id="period5">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 6 <select class="day-input" id="period6">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+<p>Period 7 <select class="day-input" id="period7">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+            </div>
+            <div class="day" id="day3">
+                <h2 class="day"> Wednesday </h2>
+                <p>Period 1 <select class="day-input" id="period1">
+  <option value=""></option>
+                  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 2 <select class="day-input" id="period2">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 3 <select class="day-input" id="period3">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p> 
+                <p>Period 4 <select class="day-input" id="period4">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 5 <select class="day-input" id="period5">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 6 <select class="day-input" id="period6">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+<p>Period 7 <select class="day-input" id="period7">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+            </div>
+            <div class="day" id="day4">
+                <h2 class="day"> Thursday </h2>
+                <p>Period 1 <select class="day-input" id="period1">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 2 <select class="day-input" id="period2">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 3 <select class="day-input" id="period3">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p> 
+                <p>Period 4 <select class="day-input" id="period4">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 5 <select class="day-input" id="period5">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 6 <select class="day-input" id="period6">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+<p>Period 7 <select class="day-input" id="period7">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+            </div>
+            <div class="day" id="day5">
+                <h2 class="day"> Friday </h2>
+                <p>Period 1 <select class="day-input" id="period1">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 2 <select class="day-input" id="period2">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 3 <select class="day-input" id="period3">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p> 
+                <p>Period 4 <select class="day-input" id="period4">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 5 <select class="day-input" id="period5">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+                <p>Period 6 <select class="day-input" id="period6">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+<p>Period 7 <select class="day-input" id="period7">
+  <option value=""></option>
+                  <option value="Religion">Religion</option>
+  <option value="History">History</option>
+  <option value="Science">Science</option>
+  <option value="English">English</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="Language: Italian">Language: Italian</option>
+  <option value="Language: Japanese">Language: Japanese</option>
+  <option value="Language: Chinese">Language: Chinese</option>
+  <option value="Music">Music</option>
+  <option value="Digital Technologies">Digital Technologies</option>
+  <option value="Personal Social Learning">Personal Social Learning</option>
+  <option value="Junior Enhancement Mathematics">Junior Enhancement Mathematics</option>
+  <option value="Junior Enhancement English">Junior Enhancement English</option>
+  <option value="Junior Enhancement Science">Junior Enhancement Science</option>
+  <option value="Junior Enhancement History">Junior Enhancement History</option>
+  <option value="Sport">Sport</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Art">Art</option>
+  <option value="Homework Club">Homework Club</option>
+  <option value="Instrumental Music">Instrumental Music</option>
+  <option value="Design and Technologies">Design and Technologies</option>
+</select></p>
+            </div>
+            <br>
+            <div class="button">
+                <button onclick="generateTable()" >Generate Table</button>
+                <button onclick="saveDataType()" >Save Table</button>
+            </div>
+        </div>
+        </div>
+    </body>
+    <script src="code2.js"></script>
+    <script src="save.js"></script>
+
+</html>

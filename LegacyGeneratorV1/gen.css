@@ -1,0 +1,164 @@
+@import url(https://fonts.googleapis.com/css2?family=Roboto);
+
+div.day {
+    text-align: center;
+    width: 15%;
+    display: inline-block;
+    font-family: Roboto;
+}
+
+.times {
+    text-align: center;
+}
+
+.time-input {
+    width: 15%; /* Keep your existing width */
+    display: inline-block;
+    vertical-align: middle; /* This is the key addition */
+}
+
+/* If you have other classes for elements that need to be inline with time inputs,
+   you might add vertical-align to them as well.
+   For example, if you have labels associated with these inputs: */
+label {
+    display: inline-block; /* Labels often need to be inline-block to align well */
+    vertical-align: middle; /* Align labels vertically with inputs */
+    margin-right: 5px; /* Add some space between label and input */
+}
+
+/* Your other existing CSS from before */
+.mainContent {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.pagelink {
+    background-color: rgba(223,220,227,0);
+    color: white;
+    text-decoration: none;
+    padding: 1.2% 0;
+    display: inline-block;
+}
+
+.pagelink {
+    background-color: rgba(223,220,227,0);
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    padding: 1.2% 0;
+    display: inline-block;
+}
+
+.links {
+    height: 40px;
+    text-align: center;
+}
+
+div.button {
+    text-align: center;
+}
+
+.nav-links {
+    flex-grow: 1; /* Allows this div to take up available space */
+    text-align: center; /* Centers the links within this div */
+}
+
+.setting:hover {
+    background-color: rgba(223, 220, 227, 0);
+}
+
+.setting {
+    background-color: rgba(223, 220, 227, 0);
+    color: white;
+    text-decoration: none;
+    display: block; /* Can keep display: block here */
+    padding: 1.2% 10px;
+    display: inline-block; /* Override display: block from above to keep it inline for padding */
+}
+
+.mainContent {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+div.days {
+    text-align: center;
+}
+
+.info {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: rgba(223,220,227,0);
+}
+
+.pagelink:hover {
+    background-color: rgba(223,220,227,0.5);
+    border-bottom: 5px solid black;
+}
+
+
+select {
+    width: 90%;
+}
+
+input {
+    width: 90%;
+}
+
+nav {
+    display: flex; /* Enable Flexbox for the nav container */
+    justify-content: space-between; /* Puts space between the two main divs */
+    align-items: center; /* Vertically aligns items in the middle */
+    padding: 0 15px; /* Add some horizontal padding to the nav bar */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: royalblue;
+    height: 60px; /* Set a fixed height for consistency */
+    text-align: right;
+    padding: 0px;
+    position: fixed; /* Keeps it at the top of the viewport */
+    width: 100%;
+    top: 0; /* Make sure it's explicitly at the very top */
+    left: 0; /* Make sure it's explicitly at the very left */
+    border-bottom: 3px solid black;
+    z-index: 1000; /* Optional: Ensures it stays on top of other content */
+}
+
+a:hover {
+    background-color: steelblue;
+}
+
+.info:hover {
+    background-color: rgba(223,220,227,0);
+}
+
+a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: deepskyblue; /* Example button color */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+body {
+    font-family: Roboto;
+    background-color: #8f70d1;
+    line-height: 1.6;
+    margin: 0px;
+    padding-top: 60px;
+}
+
+img {
+    width: 12px;
+    height: 12px;
+}

@@ -1,0 +1,138 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="gen.css">
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link href="fontawesome/css/fontawesome.css" rel="stylesheet" />
+    <link href="fontawesome/css/brands.css" rel="stylesheet" />
+    <link href="fontawesome/css/solid.css" rel="stylesheet" />
+    <title>Personal Timetable Generator</title>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="/index.html" class="pagelink"><i class="fa-solid fa-calendar-days"></i> Timetable generator</a>
+        </div>
+        <div class="nav-links">
+            <a href="/cueGenerator.html" class="pagelink"><i class="fa-solid fa-book"></i></i> (NEW) Flashcard Generator</a>
+        </div>
+        <div class="nav-settings">
+            <a href="settings.html" class="setting"><i class="fa-solid fa-gear"></i> </a>
+        </div>
+    </nav>
+    <div class="mainContent">
+        <h1>Time table generator</h1>
+        <a href="index.html">Home <img src="home.png"></a>
+        <a href="typing.html">Reset</a>
+
+        <div id="times" class="times">
+            <h1>Start time/End time of each period</h1>
+            <div class="period-row">
+                <label for="period1-start">Period 1:</label>
+                <input type="time" id="start" class="time-input">
+                <span>-</span>
+                <input type="time" id="end" class="time-input">
+            </div>
+
+            <div class="period-row">
+                <label for="period2-start">Period 2:</label>
+                <input type="time" id="start" class="time-input">
+                <span>-</span>
+                <input type="time" id="end" class="time-input">
+            </div>
+
+            <div class="period-row">
+                <label for="period3-start">Period 3:</label>
+                <input type="time" id="start" class="time-input">
+                <span>-</span>
+                <input type="time" id="end" class="time-input">
+            </div>
+
+            <div class="period-row">
+                <label for="period4-start">Period 4:</label>
+                <input type="time" id="start" class="time-input">
+                <span>-</span>
+                <input type="time" id="end" class="time-input">
+            </div>
+
+            <div class="period-row">
+                <label for="period5-start">Period 5:</label>
+                <input type="time" id="start" class="time-input">
+                <span>-</span>
+                <input type="time" id="end" class="time-input">
+            </div>
+
+            <div class="period-row">
+                <label for="period6-start">Period 6:</label>
+                <input type="time" id="start" class="time-input">
+                <span>-</span>
+                <input type="time" id="end" class="time-input">
+            </div>
+        </div>
+
+    </div>
+
+    <div id="days" class="days">
+        <div class="day" id="day1">
+            <h2 class="day"> Monday </h2>
+            <p>Period 1 <input id="period1" class="day-input" type="text"></p>
+            <p>Period 2 <input id="period2" class="day-input" type="text"></p>
+            <p>Period 3 <input id="period3" class="day-input" type="text"></p> 
+            <p>Period 4 <input id="period4" class="day-input" type="text"></p>
+            <p>Period 5 <input id="period5" class="day-input" type="text"></p>
+            <p>Period 6 <input id="period6" class="day-input" type="text"></p>
+            <p>Period 7 <input id="period7" class="day-input" type="text"></p>
+        </div>
+        <div class="day" id="day2">
+            <h2 class="day"> Tuesday </h2>
+            <p>Period 1 <input id="period1" class="day-input" type="text"></p>
+            <p>Period 2 <input id="period2" class="day-input" type="text"></p>
+            <p>Period 3 <input id="period3" class="day-input" type="text"></p> 
+            <p>Period 4 <input id="period4" class="day-input" type="text"></p>
+            <p>Period 5 <input id="period5" class="day-input" type="text"></p>
+            <p>Period 6 <input id="period6" class="day-input" type="text"></p>
+            <p>Period 7 <input id="period7" class="day-input" type="text"></p>
+        </div>
+        <div class="day" id="day3">
+            <h2 class="day"> Wednesday </h2>
+            <p>Period 1 <input id="period1" class="day-input" type="text"></p>
+            <p>Period 2 <input id="period2" class="day-input" type="text"></p>
+            <p>Period 3 <input id="period3" class="day-input" type="text"></p> 
+            <p>Period 4 <input id="period4" class="day-input" type="text"></p>
+            <p>Period 5 <input id="period5" class="day-input" type="text"></p>
+            <p>Period 6 <input id="period6" class="day-input" type="text"></p>
+            <p>Period 7 <input id="period7" class="day-input" type="text"></p>
+        </div>
+        <div class="day" id="day4">
+            <h2 class="day"> Thursday </h2>
+            <p>Period 1 <input id="period1" class="day-input" type="text"></p>
+            <p>Period 2 <input id="period2" class="day-input" type="text"></p>
+            <p>Period 3 <input id="period3" class="day-input" type="text"></p> 
+            <p>Period 4 <input id="period4" class="day-input" type="text"></p>
+            <p>Period 5 <input id="period5" class="day-input" type="text"></p>
+            <p>Period 6 <input id="period6" class="day-input" type="text"></p>
+            <p>Period 7 <input id="period7" class="day-input" type="text"></p>
+        </div>
+        <div class="day" id="day5">
+            <h2 class="day"> Friday </h2>
+            <p>Period 1 <input id="period1" class="day-input" type="text"></p>
+            <p>Period 2 <input id="period2" class="day-input" type="text"></p>
+            <p>Period 3 <input id="period3" class="day-input" type="text"></p> 
+            <p>Period 4 <input id="period4" class="day-input" type="text"></p>
+            <p>Period 5 <input id="period5" class="day-input" type="text"></p>
+            <p>Period 6 <input id="period6" class="day-input" type="text"></p>
+            <p>Period 7 <input id="period7" class="day-input" type="text"></p>
+        </div>
+        <br>
+        <div class="button">
+            <button onclick="generateTable()">Generate Table</button>
+            <button onclick="saveDataType()">Save Table</button>
+        </div>
+    </div>
+    </div>
+</body>
+<script src="code.js"></script>
+<script src="save.js"></script>
+
+</html>

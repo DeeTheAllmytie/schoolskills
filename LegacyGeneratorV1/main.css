@@ -1,0 +1,113 @@
+@import url(https://fonts.googleapis.com/css2?family=Roboto);
+
+body {
+    font-family: Roboto;
+    background-color: yellow;
+    line-height: 1.6;
+    margin: auto;
+    margin-top: 30px;
+    padding-top: 60px;
+}
+
+.nav-links {
+    flex-grow: 1; /* Allows this div to take up available space */
+    text-align: center; /* Centers the links within this div */
+}
+
+.setting {
+    background-color: rgba(223, 220, 227, 0);
+    color: white;
+    text-decoration: none;
+    display: block; /* Can keep display: block here */
+    padding: 1.2% 10px;
+    display: inline-block; /* Override display: block from above to keep it inline for padding */
+}
+
+.mainContent {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.pagelink {
+    background-color: rgba(223, 220, 227, 0);
+    color: white;
+    text-decoration: none;
+    padding: 1.2% 15px; /* Added some horizontal padding for better spacing */
+    display: inline-block;
+}
+
+.info {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: rgba(223,220,227,0);
+}
+
+.pagelink:hover {
+    background-color: rgba(223,220,227,0.5);
+    border-bottom: 5px solid black;
+}
+
+nav {
+    display: flex; /* Enable Flexbox for the nav container */
+    justify-content: space-between; /* Puts space between the two main divs */
+    align-items: center; /* Vertically aligns items in the middle */
+    padding: 0 15px; /* Add some horizontal padding to the nav bar */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: royalblue;
+    height: 60px; /* Set a fixed height for consistency */
+    text-align: right;
+    padding: 0px;
+    position: fixed; /* Keeps it at the top of the viewport */
+    width: 100%;
+    top: 0; /* Make sure it's explicitly at the very top */
+    left: 0; /* Make sure it's explicitly at the very left */
+    border-bottom: 3px solid black;
+    z-index: 1000; /* Optional: Ensures it stays on top of other content */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tagline {
+    color: #777;
+    font-style: italic;
+}
+
+.introduction {
+    margin-bottom: 20px;
+}
+
+.options a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: deepskyblue; 
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.options a.button:hover {
+    background-color: blueviolet;
+}
+
+form {
+    text-align: center;
+    margin: auto;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 40%;
+}
+
+h1 {
+    text-decoration: underline;
+}
