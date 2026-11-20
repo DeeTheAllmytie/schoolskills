@@ -82,20 +82,30 @@
         }
 
         @media print {
-            @page { size: A5 landscape; margin: 0.2cm; }
-            * { font-weight: normal !important; }
-            .controls, .time-input { display: none !important; }
-            .period-col { width: 68px !important; }
-            .time-display-print { 
-                display: block !important; 
-                font-size: 0.45rem !important; 
-                white-space: nowrap !important; 
-            }
-            table { height: 90%; }
-            select.subject-select { font-weight: normal !important; color: black; font-size: 0.55rem; }
-            .room-code { font-weight: normal !important; font-size: 0.5rem; color: black; }
-            th { background-color: #eee !important; color: black !important; font-weight: normal !important; }
-        }
+    @page { size: A5 landscape; margin: 0.2cm; }
+    * { 
+        font-family: 'Roboto Condensed', sans-serif !important; 
+        font-weight: normal !important; 
+    }
+    .controls, .time-input { display: none !important; }
+    .period-col { width: 68px !important; }
+    .time-display-print { 
+        display: block !important; 
+        font-size: 0.45rem !important; 
+        white-space: nowrap !important; 
+    }
+    table { height: 90%; }
+    select.subject-select { 
+        font-family: 'Roboto Condensed', sans-serif !important;
+        font-weight: normal !important; 
+        color: black; 
+        text-transform: none; 
+        font-size: 0.55rem; 
+    }
+    .room-code { font-weight: normal !important; font-size: 0.5rem; color: black; }
+    th { background-color: #eee !important; color: black !important; font-weight: normal !important; }
+}
+
     </style>
 </head>
 <body>
