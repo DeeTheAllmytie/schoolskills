@@ -7,113 +7,100 @@
     <link href="fontawesome/css/brands.css" rel="stylesheet" />
     <link href="fontawesome/css/solid.css" rel="stylesheet" />
     <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: #8f70d1; }
+        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', sans-serif; background-color: #8f70d1; }
         .container { display: flex; flex-direction: column; height: 100vh; width: 100vw; background: white; padding: 10px; box-sizing: border-box; }
         h1 { color: #003366; text-align: center; border-bottom: 2px solid black; margin: 0 0 5px 0; font-size: 1.2em; }
-        .controls { display: flex; justify-content: space-between; margin-bottom: 5px; }
-        .print-btn { background: steelblue; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        a { background: steelblue; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none; }
+        .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .print-btn { background: steelblue; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: 'Roboto Condensed', sans-serif; }
+        a { background: steelblue; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none; font-family: 'Roboto Condensed', sans-serif; }
         
-        .time-input {
-            font-size: 7px;
-        }
-
         table { width: 100%; flex-grow: 1; border-collapse: collapse; border: 2px solid black; table-layout: fixed; }
         th, td { border: 1px solid black; text-align: center; vertical-align: middle; padding: 2px; overflow: hidden; word-wrap: break-word; line-height: 1.1; }
         
         th { background-color: royalblue; color: white; font-size: 0.6rem; height: 35px; }
         .period-col { background-color: #f8f9fa; font-weight: bold; width: 55px; font-size: 0.65rem; }
-        .time-input { width: 90%; font-size: 0.65rem; border: 1px solid #ccc; text-align: center; }
+        .time-input { width: 90%; font-size: 0.65rem; border: 1px solid #ccc; text-align: center; font-family: 'Roboto Condensed', sans-serif; }
 
         /* The Subject Text Styling */
         select.subject-select { 
             width: 100%; border: none; background: transparent; 
-            text-align: center; font-family: inherit;
+            text-align: center; font-family: 'Roboto Condensed', sans-serif;
             font-size: 0.7rem; appearance: none; cursor: pointer;
             display: block; white-space: normal;
         }
 
-        /* Room Code & Teacher Styling underneath subject */
-        .room-code {
-            font-size: 0.65rem;
-            font-weight: bold;
-            color: #333;
-            margin-top: 2px;
-            display: block;
-        }
-
-        .teacher-name {
+        /* Extra Info Styling underneath subject */
+        .extra-info {
             font-size: 0.6rem;
-            color: #444;
+            color: #333;
             margin-top: 1px;
             display: block;
+            line-height: 1.1;
+        }
+        .room-code {
+            font-weight: bold;
         }
 
-        /* Bottom Toggle Switches Bar */
+        /* Toggle Bar at Bottom */
         .toggle-bar {
+            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            align-items: center;
-            gap: 24px;
-            margin-top: 6px;
+            gap: 14px;
+            padding: 6px 10px;
+            margin-top: 5px;
             margin-bottom: 0;
-            padding: 4px 10px;
             background: #f1f3f5;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 0.75rem;
         }
-
         .toggle-item {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: #003366;
+            gap: 5px;
             cursor: pointer;
             user-select: none;
+            font-weight: bold;
+            color: #003366;
         }
-
         .switch {
             position: relative;
             display: inline-block;
-            width: 34px;
-            height: 18px;
+            width: 30px;
+            height: 16px;
         }
-
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-
         .slider {
             position: absolute;
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc;
-            transition: 0.2s;
-            border-radius: 18px;
+            background-color: #bbb;
+            transition: .2s;
+            border-radius: 16px;
         }
-
         .slider:before {
             position: absolute;
             content: "";
-            height: 14px;
-            width: 14px;
+            height: 12px;
+            width: 12px;
             left: 2px;
             bottom: 2px;
             background-color: white;
-            transition: 0.2s;
+            transition: .2s;
             border-radius: 50%;
         }
-
-        .switch input:checked + .slider {
-            background-color: steelblue;
+        input:checked + .slider {
+            background-color: royalblue;
         }
-
-        .switch input:checked + .slider:before {
-            transform: translateX(16px);
+        input:checked + .slider:before {
+            transform: translateX(14px);
         }
 
         .nav-links {
@@ -153,20 +140,35 @@
             border-bottom: 5px solid black;
         }
 
+        .hidden {
+            display: none !important;
+        }
+
         @media print {
             @page { size: A5 landscape; margin: 0.2cm; }
-            * { font-weight: normal !important; }
-            .controls, .time-input { display: none !important; }
+            * { 
+                font-family: 'Roboto Condensed', sans-serif !important;
+                font-weight: normal !important; 
+            }
+            .controls, .toggle-bar, .time-input { display: none !important; }
             .period-col { width: 68px !important; }
             .time-display-print { 
                 display: block !important; 
                 font-size: 0.45rem !important; 
                 white-space: nowrap !important; 
             }
+            .time-display-print.hidden {
+                display: none !important;
+            }
             table { height: 90%; }
-            select.subject-select { font-family: inherit; font-weight: normal !important; color: black; font-size: 0.55rem; }
-            .room-code { font-weight: normal !important; font-size: 0.5rem; color: black; }
-            .teacher-name { font-weight: normal !important; font-size: 0.45rem; color: black; }
+            select.subject-select { 
+                font-family: 'Roboto Condensed', sans-serif !important;
+                font-weight: normal !important; 
+                color: black; 
+                text-transform: none !important;
+                font-size: 0.55rem; 
+            }
+            .extra-info, .room-code { font-weight: normal !important; font-size: 0.5rem; color: black; }
             th { background-color: #eee !important; color: black !important; font-weight: normal !important; }
         }
     </style>
@@ -196,7 +198,7 @@
         <br>
         <button class="print-btn" onclick="handlePrint()">Print / Save as PDF</button>
         <a href="downloadusage.html">How To Upload Your Timetable</a>
-        <a href="javascript:(function(){var row=document.querySelector('.timetable-small');if(!row)return;var periodMap={};var currentDayIndex=-1;row.querySelectorAll('table tr').forEach(tr=>{var th=tr.querySelector('th');var subjectEl=tr.querySelector('td .timetable-subject');if(th&&subjectEl){var fullTimeText=th.innerText||'';var metaText=tr.querySelector('time.meta')?.innerText||%27%27;var periodName=fullTimeText.replace(metaText,%27%27).trim();var className=subjectEl.querySelector(%27a%27)?.innerText.trim()||%27%27;var extraDiv=subjectEl.querySelector(%27div%27);var extraText=extraDiv?extraDiv.innerText.replace(className,%27%27).trim():%27%27;var bg=subjectEl.style.backgroundColor||%27%27;if(periodName.toLowerCase().includes(%27period 0%27)){currentDayIndex++;}if(!periodMap[periodName]){periodMap[periodName]={time:metaText.trim(),slots:[]};}while(periodMap[periodName].slots.length<currentDayIndex){periodMap[periodName].slots.push({className:%27%27,details:%27%27,bg:%27%27});}periodMap[periodName].slots[currentDayIndex]={className:className,details:extraText,bg:bg};}});var cleanData=[];for(var pName in periodMap){if(periodMap.hasOwnProperty(pName)){var slotsArray=[];for(var i=0;i<=currentDayIndex;i++){slotsArray.push(periodMap[periodName].slots[i]||{className:%27%27,details:%27%27,bg:%27%27});}cleanData.push({period:pName,time:periodMap[periodName].time,slots:slotsArray});}}var rawStr=JSON.stringify(cleanData);var encStr=btoa(unescape(encodeURIComponent(rawStr)));var blob=new Blob([JSON.stringify({secureData:encStr},null,2)],{type:%27application/json%27});var a=document.createElement(%27a%27);a.href=URL.createObjectURL(blob);a.download=%27grid_timetable.json%27;document.body.appendChild(a);a.click();document.body.removeChild(a);})();">Download Timetable</a>
+        <a href="javascript:(function(){var row=document.querySelector('.timetable-small');if(!row)return;var periodMap={};var currentDayIndex=-1;row.querySelectorAll('table tr').forEach(tr=>{var th=tr.querySelector('th');var subjectEl=tr.querySelector('td .timetable-subject');if(th&&subjectEl){var fullTimeText=th.innerText||'';var metaText=tr.querySelector('time.meta')?.innerText||%27%27;var periodName=fullTimeText.replace(metaText,%27%27).trim();var className=subjectEl.querySelector(%27a%27)?.innerText.trim()||%27%27;var extraDiv=subjectEl.querySelector(%27div%27);var extraText=extraDiv?extraDiv.innerText.replace(className,%27%27).trim():%27%27;var bg=subjectEl.style.backgroundColor||%27%27;if(periodName.toLowerCase().includes(%27period 0%27)){currentDayIndex++;}if(!periodMap[periodName]){periodMap[periodName]={time:metaText.trim(),slots:[]};}while(periodMap[periodName].slots.length<currentDayIndex){periodMap[periodName].slots.push({className:%27%27,details:%27%27,bg:%27%27});}periodMap[periodName].slots[currentDayIndex]={className:className,details:extraText,bg:bg};}});var cleanData=[];for(var pName in periodMap){if(periodMap.hasOwnProperty(pName)){var slotsArray=[];for(var i=0;i<=currentDayIndex;i++){slotsArray.push(periodMap[periodName].slots[i]||{className:%27%27,details:%27%27,bg:%27%27});}cleanData.push({period:pName,time:periodMap[pName].time,slots:slotsArray});}}var rawStr=JSON.stringify(cleanData);var encStr=btoa(unescape(encodeURIComponent(rawStr)));var blob=new Blob([JSON.stringify({secureData:encStr},null,2)],{type:%27application/json%27});var a=document.createElement(%27a%27);a.href=URL.createObjectURL(blob);a.download=%27grid_timetable.json%27;document.body.appendChild(a);a.click();document.body.removeChild(a);})();">Download Timetable</a>
         <!-- Upload UI Component Elements -->
         <div style="margin: 10px 0; display: inline-block;">
             <input type="file" id="timetableUpload" accept=".json" style="display: none;">
@@ -220,24 +222,45 @@
     <div class="controls toggle-bar">
         <label class="toggle-item">
             <span class="switch">
-                <input type="checkbox" id="toggleRoom" checked onchange="applyDisplayToggles()">
+                <input type="checkbox" id="toggleRoom" checked onchange="applyToggles()">
                 <span class="slider"></span>
             </span>
             Room Codes
         </label>
         <label class="toggle-item">
             <span class="switch">
-                <input type="checkbox" id="toggleTeacher" onchange="applyDisplayToggles()">
+                <input type="checkbox" id="toggleTeacher" onchange="applyToggles()">
                 <span class="slider"></span>
             </span>
             Teacher's Name
         </label>
         <label class="toggle-item">
             <span class="switch">
-                <input type="checkbox" id="toggleYear" onchange="applyDisplayToggles()">
+                <input type="checkbox" id="toggleYear" onchange="applyToggles()">
                 <span class="slider"></span>
             </span>
             Year Level
+        </label>
+        <label class="toggle-item">
+            <span class="switch">
+                <input type="checkbox" id="toggleClassCode" onchange="applyToggles()">
+                <span class="slider"></span>
+            </span>
+            Class Codes
+        </label>
+        <label class="toggle-item">
+            <span class="switch">
+                <input type="checkbox" id="toggleTimes" checked onchange="applyToggles()">
+                <span class="slider"></span>
+            </span>
+            Period Times
+        </label>
+        <label class="toggle-item">
+            <span class="switch">
+                <input type="checkbox" id="toggleExtraPeriods" onchange="applyToggles()">
+                <span class="slider"></span>
+            </span>
+            Period 0 &amp; 7
         </label>
     </div>
 </div>
@@ -245,104 +268,74 @@
 <script>
     const subjects = ["Religion", "History", "Science", "English", "Maths", "Language: Italian", "Language: Japanese", "Language: Chinese", "Music", "Digital Technologies", "Personal Social Learning", "Junior Enhancement Mathematics", "Junior Enhancement English", "Junior Enhancement Science", "Junior Enhancement History", "Sport", "Physical Education", "Art", "Homework Club", "Instrumental Music", "Design and Technologies", "Design and Materials", "Pastoral", "Visual Communication Design", "Geography"];
     const days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10"];
+    const periods = [0, 1, 2, 3, 4, 5, 6, 7];
+
+    let importedTimetableData = null;
 
     function init() {
         const header = document.getElementById('dayHeaders');
         const body = document.getElementById('timetableBody');
         days.forEach(d => { let th = document.createElement('th'); th.innerText = d; header.appendChild(th); });
 
-        for (let p = 1; p <= 6; p++) {
+        periods.forEach(p => {
             let tr = document.createElement('tr');
+            tr.dataset.period = p;
+            if (p === 0 || p === 7) {
+                tr.classList.add('extra-period-row', 'hidden');
+            }
             tr.innerHTML = `<td class="period-col">P${p}<br><input type="text" class="time-input" placeholder="0:00"><span class="time-display-print" style="display:none"></span></td>`;
             for (let d = 0; d < 10; d++) {
                 let td = document.createElement('td');
                 let sel = document.createElement('select');
                 sel.className = "subject-select";
                 sel.innerHTML = `<option value="">--</option>` + subjects.map(s => `<option value="${s}">${s}</option>`).join('');
-                sel.onchange = function() {
-                    this.dataset.baseSubject = this.value;
-                    this.dataset.yearPrefix = "";
-                    adjustFont(this);
-                };
+                sel.onchange = function() { adjustFont(this); };
                 td.appendChild(sel);
 
+                let classCodeDiv = document.createElement('div');
+                classCodeDiv.className = "extra-info class-code hidden";
+                td.appendChild(classCodeDiv);
+
                 let roomDiv = document.createElement('div');
-                roomDiv.className = "room-code";
+                roomDiv.className = "extra-info room-code";
                 td.appendChild(roomDiv);
 
                 let teacherDiv = document.createElement('div');
-                teacherDiv.className = "teacher-name";
-                teacherDiv.style.display = "none";
+                teacherDiv.className = "extra-info teacher-name hidden";
                 td.appendChild(teacherDiv);
 
                 tr.appendChild(td);
             }
             body.appendChild(tr);
-        }
-    }
-
-    function parseSlotDetails(details) {
-        if (!details) return { room: "", teacher: "" };
-        const cleaned = details.replace(/\s+/g, ' ').trim();
-        // Remove class code like (27_09SRO1A)
-        const afterCode = cleaned.replace(/^\([^)]*\)\s*/, '').trim();
-        const roomMatch = afterCode.match(/^([A-Z]{1,3}\d+\.\d+)\b\s*(.*)$/i);
-        if (roomMatch) {
-            return {
-                room: roomMatch[1],
-                teacher: roomMatch[2].trim()
-            };
-        }
-        return {
-            room: "",
-            teacher: afterCode
-        };
-    }
-
-    function applyDisplayToggles() {
-        const showRoom = document.getElementById('toggleRoom').checked;
-        const showTeacher = document.getElementById('toggleTeacher').checked;
-        const showYear = document.getElementById('toggleYear').checked;
-
-        document.querySelectorAll('#timetableBody td:not(.period-col)').forEach(td => {
-            const sel = td.querySelector('.subject-select');
-            const roomDiv = td.querySelector('.room-code');
-            const teacherDiv = td.querySelector('.teacher-name');
-
-            if (roomDiv) {
-                roomDiv.style.display = (showRoom && roomDiv.innerText.trim() !== "") ? "block" : "none";
-            }
-            if (teacherDiv) {
-                teacherDiv.style.display = (showTeacher && teacherDiv.innerText.trim() !== "") ? "block" : "none";
-            }
-
-            if (sel && sel.dataset.baseSubject !== undefined) {
-                const base = sel.dataset.baseSubject;
-                const prefix = sel.dataset.yearPrefix || "";
-                if (!base) {
-                    sel.value = "";
-                } else {
-                    const targetText = (showYear && prefix) ? `${prefix} ${base}` : base;
-                    if (!Array.from(sel.options).some(opt => opt.value === targetText)) {
-                        let newOpt = document.createElement('option');
-                        newOpt.value = targetText;
-                        newOpt.text = targetText;
-                        sel.add(newOpt);
-                    }
-                    sel.value = targetText;
-                }
-                adjustFont(sel);
-            }
         });
+
+        applyToggles();
+    }
+
+    function parseDetails(details) {
+        if (!details) return { classCode: "", room: "", teacher: "" };
+        const cleaned = details.replace(/\s+/g, ' ').trim();
+
+        const codeMatch = cleaned.match(/^(\([^)]+\))/);
+        const classCode = codeMatch ? codeMatch[1] : "";
+        let rest = codeMatch ? cleaned.slice(codeMatch[0].length).trim() : cleaned;
+
+        const roomMatch = rest.match(/^([A-Z]{1,3}\d+\.\d+)\b/i);
+        const room = roomMatch ? roomMatch[1] : "";
+        const teacher = roomMatch ? rest.slice(roomMatch[0].length).trim() : rest;
+
+        return { classCode, room, teacher };
     }
 
     function populateTimetable(timetableData) {
+        if (!timetableData) return;
+        const showYear = document.getElementById('toggleYear').checked;
         const rows = document.querySelectorAll('#timetableBody tr');
 
-        for (let p = 1; p <= 6; p++) {
+        rows.forEach(tr => {
+            const p = tr.dataset.period;
             const periodEntry = timetableData.find(item => item.period.trim().toLowerCase() === `period ${p}`);
-            const tr = rows[p - 1];
-            if (!periodEntry || !tr) continue;
+            if (!periodEntry) return;
 
             const timeInput = tr.querySelector('.time-input');
             if (timeInput && periodEntry.time) {
@@ -355,42 +348,78 @@
                 if (!td) return;
 
                 const sel = td.querySelector('.subject-select');
+                const classCodeDiv = td.querySelector('.class-code');
                 const roomDiv = td.querySelector('.room-code');
                 const teacherDiv = td.querySelector('.teacher-name');
 
                 td.style.backgroundColor = slot.bg || "";
 
                 if (slot.className) {
-                    const yearMatch = slot.className.match(/^(Year\s+\d+)\s+(.*)$/i);
-                    const yearPrefix = yearMatch ? yearMatch[1] : "";
-                    const rawSubject = yearMatch ? yearMatch[2].trim() : slot.className.trim();
+                    const rawName = slot.className.trim();
+                    const noYearName = rawName.replace(/^Year\s+\d+\s+/i, '').trim();
+                    const targetName = showYear ? rawName : noYearName;
 
                     let matchedOption = Array.from(sel.options).find(opt =>
-                        opt.value.toLowerCase() === rawSubject.toLowerCase() ||
-                        (rawSubject.toLowerCase().includes(opt.value.toLowerCase()) && opt.value !== "")
+                        opt.value.toLowerCase() === targetName.toLowerCase() ||
+                        (!showYear && noYearName.toLowerCase().includes(opt.value.toLowerCase()) && opt.value !== "")
                     );
 
-                    const baseSubject = matchedOption ? matchedOption.value : rawSubject;
-                    sel.dataset.baseSubject = baseSubject;
-                    sel.dataset.yearPrefix = yearPrefix;
+                    if (matchedOption) {
+                        sel.value = matchedOption.value;
+                    } else {
+                        let newOpt = document.createElement('option');
+                        newOpt.value = targetName;
+                        newOpt.text = targetName;
+                        sel.add(newOpt);
+                        sel.value = targetName;
+                    }
+                    adjustFont(sel);
                 } else {
-                    sel.dataset.baseSubject = "";
-                    sel.dataset.yearPrefix = "";
                     sel.value = "";
                 }
 
-                const parsed = parseSlotDetails(slot.details);
-                if (roomDiv) {
-                    roomDiv.innerText = parsed.room;
-                }
-                if (teacherDiv) {
-                    teacherDiv.innerText = parsed.teacher;
-                }
+                const parsed = parseDetails(slot.details);
+                if (classCodeDiv) classCodeDiv.innerText = parsed.classCode;
+                if (roomDiv) roomDiv.innerText = parsed.room;
+                if (teacherDiv) teacherDiv.innerText = parsed.teacher;
             });
-        }
+        });
 
-        applyDisplayToggles();
+        applyToggles();
     }
+
+    function applyToggles() {
+        const showRoom = document.getElementById('toggleRoom').checked;
+        const showTeacher = document.getElementById('toggleTeacher').checked;
+        const showClassCode = document.getElementById('toggleClassCode').checked;
+        const showTimes = document.getElementById('toggleTimes').checked;
+        const showExtraPeriods = document.getElementById('toggleExtraPeriods').checked;
+
+        document.querySelectorAll('.room-code').forEach(el => {
+            el.classList.toggle('hidden', !showRoom || !el.innerText);
+        });
+        document.querySelectorAll('.teacher-name').forEach(el => {
+            el.classList.toggle('hidden', !showTeacher || !el.innerText);
+        });
+        document.querySelectorAll('.class-code').forEach(el => {
+            el.classList.toggle('hidden', !showClassCode || !el.innerText);
+        });
+        document.querySelectorAll('.time-input').forEach(el => {
+            el.classList.toggle('hidden', !showTimes);
+        });
+        document.querySelectorAll('.time-display-print').forEach(el => {
+            el.classList.toggle('hidden', !showTimes);
+        });
+        document.querySelectorAll('.extra-period-row').forEach(el => {
+            el.classList.toggle('hidden', !showExtraPeriods);
+        });
+    }
+
+    document.getElementById('toggleYear').addEventListener('change', function() {
+        if (importedTimetableData) {
+            populateTimetable(importedTimetableData);
+        }
+    });
 
     document.getElementById('timetableUpload').addEventListener('change', function(event) {
         const file = event.target.files[0];
@@ -411,9 +440,9 @@
                     bytes[i] = binaryString.charCodeAt(i);
                 }
                 const decodedString = new TextDecoder('utf-8').decode(bytes);
-                const timetableData = JSON.parse(decodedString);
+                importedTimetableData = JSON.parse(decodedString);
 
-                populateTimetable(timetableData);
+                populateTimetable(importedTimetableData);
             } catch (error) {
                 console.error(error);
                 alert("Error parsing JSON file.");
@@ -430,7 +459,12 @@
     }
 
     function handlePrint() {
-        document.querySelectorAll('.time-input').forEach(i => i.nextElementSibling.innerText = i.value);
+        const showTimes = document.getElementById('toggleTimes').checked;
+        document.querySelectorAll('.time-input').forEach(i => {
+            const span = i.nextElementSibling;
+            span.innerText = showTimes ? i.value : "";
+            span.classList.toggle('hidden', !showTimes);
+        });
         window.print();
     }
 
