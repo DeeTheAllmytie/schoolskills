@@ -9,56 +9,45 @@
     <link rel="icon" href="icon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        html, body { 
-            height: 100%; 
-            margin: 0; 
-            padding: 0; 
-            overflow: hidden; 
-            font-family: 'Roboto Condensed', sans-serif; 
-            background-color: #8f70d1; 
+        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', sans-serif; background-color: #8f70d1; }
+        .container { display: flex; flex-direction: column; height: 100vh; width: 100vw; background: white; padding: 10px; box-sizing: border-box; }
+        
+        .title-wrapper { text-align: center; border-bottom: 2px solid black; margin: 0 0 6px 0; }
+        #timetableTitle {
+            color: #003366;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            width: 100%;
+            outline: none;
+            padding: 2px 0;
         }
-        .container { 
-            display: flex; 
-            flex-direction: column; 
-            height: 100vh; 
-            width: 100vw; 
-            background: white; 
-            padding: 70px 10px 10px 10px; 
-            box-sizing: border-box; 
-        }
-        h1 { 
-            color: #003366; 
-            text-align: center; 
-            border-bottom: 2px solid black; 
-            margin: 0 0 6px 0; 
-            font-size: 1.2em; 
-        }
-        .controls { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            margin-bottom: 6px; 
+        #timetableTitle:hover, #timetableTitle:focus {
+            background-color: #f8f9fa;
         }
 
-        /* Neat faded card bar for top actions & bottom toggles */
-        .action-bar, .toggle-bar {
+        .controls { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        
+        /* Matching Faded Top Action Bar */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background-color: #f1f3f5;
             border: 1px solid #dee2e6;
             border-radius: 6px;
             padding: 6px 12px;
-            display: flex;
-            align-items: center;
+            margin-bottom: 6px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
-        .action-bar {
-            justify-content: space-between;
-        }
-        .action-note {
+        .action-bar p {
             margin: 0;
             font-size: 0.85rem;
-            color: #495057;
-            font-weight: bold;
+            color: #333;
         }
         .action-buttons {
             display: flex;
@@ -66,118 +55,79 @@
             gap: 8px;
             flex-wrap: wrap;
         }
-        .toggle-bar {
-            justify-content: center;
-            gap: 18px;
-            margin-top: 6px;
-            margin-bottom: 0;
-        }
-
-        .print-btn, .action-link { 
-            background: steelblue; 
-            color: white; 
-            border: none; 
-            padding: 6px 12px; 
-            border-radius: 4px; 
-            cursor: pointer; 
+        .print-btn, .action-buttons a {
+            background: steelblue;
+            color: white;
+            border: none;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 12px;
+            border-radius: 4px;
+            cursor: pointer;
             font-family: 'Roboto Condensed', sans-serif;
-            font-weight: bold; 
+            font-weight: bold;
             font-size: 0.82rem;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            line-height: 1.2;
-            height: 30px;
             box-sizing: border-box;
-            transition: background-color 0.15s ease;
         }
-        .print-btn:hover, .action-link:hover {
-            background: #36648b;
+        .print-btn:hover, .action-buttons a:hover {
+            background: #3a6ea5;
         }
 
-        table { 
-            width: 100%; 
-            flex-grow: 1; 
-            border-collapse: collapse; 
-            border: 2px solid black; 
-            table-layout: fixed; 
-        }
-        th, td { 
-            border: 1px solid black; 
-            text-align: center; 
-            vertical-align: middle; 
-            padding: 2px; 
-            overflow: hidden; 
-            word-wrap: break-word; 
-            line-height: 1.1; 
-        }
+        table { width: 100%; flex-grow: 1; border-collapse: collapse; border: 2px solid black; table-layout: fixed; }
+        th, td { border: 1px solid black; text-align: center; vertical-align: middle; padding: 2px; overflow: hidden; word-wrap: break-word; line-height: 1.1; }
         
-        th { 
-            background-color: royalblue; 
-            color: white; 
-            font-size: 0.65rem; 
-            height: 32px; 
-        }
-        .period-col { 
-            background-color: #f8f9fa; 
-            font-weight: bold; 
-            width: 64px; 
-            font-size: 0.65rem; 
-        }
-        .time-input { 
-            width: 92%; 
-            font-family: 'Roboto Condensed', sans-serif;
-            font-size: 0.6rem; 
-            border: 1px solid #ccc; 
-            border-radius: 2px;
-            text-align: center; 
-            margin-top: 2px;
-        }
+        th { background-color: royalblue; color: white; font-size: 0.6rem; height: 32px; }
+        .period-col { background-color: #f8f9fa; font-weight: bold; width: 65px; font-size: 0.65rem; }
+        .time-input { width: 92%; font-family: 'Roboto Condensed', sans-serif; font-size: 0.6rem; border: 1px solid #ccc; text-align: center; margin-top: 2px; }
 
-        /* The Subject Text Styling */
+        /* Subject Dropdown Styling */
         select.subject-select { 
-            width: 100%; 
-            border: none; 
-            background: transparent; 
-            text-align: center; 
-            font-family: 'Roboto Condensed', sans-serif;
-            font-size: 0.7rem; 
-            appearance: none; 
-            cursor: pointer;
-            display: block; 
-            white-space: normal;
+            width: 100%; border: none; background: transparent; 
+            text-align: center; font-family: 'Roboto Condensed', sans-serif;
+            font-size: 0.7rem; appearance: none; cursor: pointer;
+            display: block; white-space: normal;
         }
 
-        /* Optional Sub-details underneath subject */
-        .class-code {
-            font-size: 0.58rem;
-            color: #444;
+        /* Sub-elements inside cell */
+        .class-code, .room-code, .teacher-name {
+            font-size: 0.6rem;
+            line-height: 1.1;
             margin-top: 1px;
-            display: none;
-        }
-        .room-code {
-            font-size: 0.65rem;
-            font-weight: bold;
-            color: #222;
-            margin-top: 2px;
             display: block;
         }
-        .teacher-name {
-            font-size: 0.6rem;
+        .room-code {
+            font-weight: bold;
+            color: #111;
+        }
+        .class-code, .teacher-name {
             color: #333;
-            margin-top: 1px;
-            display: none;
         }
 
-        /* Toggle Switch Styling */
+        /* Bottom Toggle Bar */
+        .toggle-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            background-color: #f1f3f5;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 6px 12px;
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
         .toggle-item {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             font-size: 0.8rem;
             font-weight: bold;
-            color: #003366;
+            color: #212529;
             cursor: pointer;
             user-select: none;
         }
@@ -185,7 +135,7 @@
             position: relative;
             display: inline-block;
             width: 32px;
-            height: 17px;
+            height: 18px;
         }
         .switch input {
             opacity: 0;
@@ -197,25 +147,25 @@
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: #ccc;
-            transition: .2s;
-            border-radius: 17px;
+            transition: 0.2s;
+            border-radius: 18px;
         }
         .slider:before {
             position: absolute;
             content: "";
-            height: 13px;
-            width: 13px;
+            height: 14px;
+            width: 14px;
             left: 2px;
             bottom: 2px;
             background-color: white;
-            transition: .2s;
+            transition: 0.2s;
             border-radius: 50%;
         }
-        .switch input:checked + .slider {
-            background-color: royalblue;
+        input:checked + .slider {
+            background-color: steelblue;
         }
-        .switch input:checked + .slider:before {
-            transform: translateX(15px);
+        input:checked + .slider:before {
+            transform: translateX(14px);
         }
 
         .nav-links {
@@ -229,7 +179,6 @@
             align-items: center;
             background-color: royalblue;
             height: 60px;
-            padding: 0;
             position: fixed;
             width: 100%;
             top: 0;
@@ -239,12 +188,11 @@
         }
 
         .pagelink {
-            background-color: transparent;
+            background-color: rgba(223, 220, 227, 0);
             color: white;
             text-decoration: none;
-            padding: 18px 15px;
+            padding: 1.2% 15px;
             display: inline-block;
-            font-family: 'Roboto Condensed', sans-serif;
             font-weight: bold;
         }
 
@@ -256,38 +204,37 @@
         @media print {
             @page { size: A5 landscape; margin: 0.2cm; }
             * { 
-                font-family: 'Roboto Condensed', sans-serif !important; 
+                font-family: 'Roboto Condensed', sans-serif !important;
                 font-weight: normal !important; 
             }
-            .container { padding: 4px !important; }
-            .controls, .time-input { display: none !important; }
+            .controls, .action-bar, .toggle-bar, .time-input { display: none !important; }
+            .title-wrapper { border-bottom: 1px solid black; }
+            #timetableTitle { color: black !important; font-size: 0.9rem !important; }
             .period-col { width: 68px !important; }
-            .time-display-print { 
+            .time-display-print.show-time { 
                 display: block !important; 
                 font-size: 0.45rem !important; 
                 white-space: nowrap !important; 
             }
-            .hide-times .time-display-print {
-                display: none !important;
-            }
             table { height: 90%; }
             select.subject-select { 
-                font-family: 'Roboto Condensed', sans-serif !important;
                 font-weight: normal !important; 
                 color: black; 
                 text-transform: none !important; 
                 font-size: 0.55rem; 
             }
-            .class-code { font-weight: normal !important; font-size: 0.45rem; color: black; }
-            .room-code { font-weight: normal !important; font-size: 0.5rem; color: black; }
-            .teacher-name { font-weight: normal !important; font-size: 0.45rem; color: black; }
+            .room-code, .teacher-name, .class-code { 
+                font-weight: normal !important; 
+                font-size: 0.48rem; 
+                color: black; 
+            }
             th { background-color: #eee !important; color: black !important; font-weight: normal !important; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="controls" style="margin:0;">
+    <div class="controls">
         <nav>
             <div class="nav-links">
                 <a href="index.html" class="pagelink"><i class="fa-solid fa-calendar-days"></i> Timetable Generator</a>
@@ -300,13 +247,14 @@
             </div>
         </nav>
     </div>
+    <div class="controls" style="height: 55px;"></div>
 
-    <div class="controls action-bar"> 
-        <p class="action-note"><i class="fa-solid fa-circle-info"></i> Read info for print instructions</p>
+    <div class="action-bar"> 
+        <p>Read info for print instructions</p>
         <div class="action-buttons">
             <button class="print-btn" onclick="handlePrint()">Print / Save as PDF</button>
-            <a class="action-link" href="downloadusage.html">How To Upload Your Timetable</a>
-            <a class="action-link" href="javascript:(function(){var row=document.querySelector('.timetable-small');if(!row)return;var periodMap={};var currentDayIndex=-1;row.querySelectorAll('table tr').forEach(tr=>{var th=tr.querySelector('th');var subjectEl=tr.querySelector('td .timetable-subject');if(th&&subjectEl){var fullTimeText=th.innerText||'';var metaText=tr.querySelector('time.meta')?.innerText||%27%27;var periodName=fullTimeText.replace(metaText,%27%27).trim();var className=subjectEl.querySelector(%27a%27)?.innerText.trim()||%27%27;var extraDiv=subjectEl.querySelector(%27div%27);var extraText=extraDiv?extraDiv.innerText.replace(className,%27%27).trim():%27%27;var bg=subjectEl.style.backgroundColor||%27%27;if(periodName.toLowerCase().includes(%27period 0%27)){currentDayIndex++;}if(!periodMap[periodName]){periodMap[periodName]={time:metaText.trim(),slots:[]};}while(periodMap[periodName].slots.length<currentDayIndex){periodMap[periodName].slots.push({className:%27%27,details:%27%27,bg:%27%27});}periodMap[periodName].slots[currentDayIndex]={className:className,details:extraText,bg:bg};}});var cleanData=[];for(var pName in periodMap){if(periodMap.hasOwnProperty(pName)){var slotsArray=[];for(var i=0;i<=currentDayIndex;i++){slotsArray.push(periodMap[periodName].slots[i]||{className:%27%27,details:%27%27,bg:%27%27});}cleanData.push({period:pName,time:periodMap[pName].time,slots:slotsArray});}}var rawStr=JSON.stringify(cleanData);var encStr=btoa(unescape(encodeURIComponent(rawStr)));var blob=new Blob([JSON.stringify({secureData:encStr},null,2)],{type:%27application/json%27});var a=document.createElement(%27a%27);a.href=URL.createObjectURL(blob);a.download=%27grid_timetable.json%27;document.body.appendChild(a);a.click();document.body.removeChild(a);})();">Download Timetable</a>
+            <a href="downloadusage.html">How To Upload Your Timetable</a>
+            <a href="javascript:(function(){var row=document.querySelector('.timetable-small');if(!row)return;var periodMap={};var currentDayIndex=-1;row.querySelectorAll('table tr').forEach(tr=>{var th=tr.querySelector('th');var subjectEl=tr.querySelector('td .timetable-subject');if(th&&subjectEl){var fullTimeText=th.innerText||'';var metaText=tr.querySelector('time.meta')?.innerText||%27%27;var periodName=fullTimeText.replace(metaText,%27%27).trim();var className=subjectEl.querySelector(%27a%27)?.innerText.trim()||%27%27;var extraDiv=subjectEl.querySelector(%27div%27);var extraText=extraDiv?extraDiv.innerText.replace(className,%27%27).trim():%27%27;var bg=subjectEl.style.backgroundColor||%27%27;if(periodName.toLowerCase().includes(%27period 0%27)){currentDayIndex++;}if(!periodMap[periodName]){periodMap[periodName]={time:metaText.trim(),slots:[]};}while(periodMap[periodName].slots.length<currentDayIndex){periodMap[periodName].slots.push({className:%27%27,details:%27%27,bg:%27%27});}periodMap[periodName].slots[currentDayIndex]={className:className,details:extraText,bg:bg};}});var cleanData=[];for(var pName in periodMap){if(periodMap.hasOwnProperty(pName)){var slotsArray=[];for(var i=0;i<=currentDayIndex;i++){slotsArray.push(periodMap[periodName].slots[i]||{className:%27%27,details:%27%27,bg:%27%27});}cleanData.push({period:pName,time:periodMap[pName].time,slots:slotsArray});}}var rawStr=JSON.stringify(cleanData);var encStr=btoa(unescape(encodeURIComponent(rawStr)));var blob=new Blob([JSON.stringify({secureData:encStr},null,2)],{type:%27application/json%27});var a=document.createElement(%27a%27);a.href=URL.createObjectURL(blob);a.download=%27grid_timetable.json%27;document.body.appendChild(a);a.click();document.body.removeChild(a);})();">Download Timetable</a>
             <input type="file" id="timetableUpload" accept=".json" style="display: none;">
             <button onclick="document.getElementById('timetableUpload').click()" class="print-btn">
                 Upload JSON Timetable
@@ -314,9 +262,11 @@
         </div>
     </div>
 
-    <h1>My Timetable</h1>
+    <div class="title-wrapper">
+        <input type="text" id="timetableTitle" value="My Timetable" aria-label="Timetable Title">
+    </div>
 
-    <table id="timetableTable">
+    <table>
         <thead>
             <tr id="dayHeaders">
                 <th class="period-col">Period</th>
@@ -328,7 +278,7 @@
     <div class="controls toggle-bar">
         <label class="toggle-item">
             <span class="switch">
-                <input type="checkbox" id="toggleRoom" onchange="applyToggles()">
+                <input type="checkbox" id="toggleRoom" checked onchange="applyToggles()">
                 <span class="slider"></span>
             </span>
             Room Codes
@@ -363,7 +313,14 @@
         </label>
         <label class="toggle-item">
             <span class="switch">
-                <input type="checkbox" id="toggleExtraPeriods" onchange="applyToggles()">
+                <input type="checkbox" id="togglePastoral" onchange="applyToggles()">
+                <span class="slider"></span>
+            </span>
+            Pastoral
+        </label>
+        <label class="toggle-item">
+            <span class="switch">
+                <input type="checkbox" id="toggleP0P7" onchange="applyToggles()">
                 <span class="slider"></span>
             </span>
             Period 0 &amp; 7
@@ -374,22 +331,34 @@
 <script>
     const subjects = ["Religion", "History", "Science", "English", "Maths", "Language: Italian", "Language: Japanese", "Language: Chinese", "Music", "Digital Technologies", "Personal Social Learning", "Junior Enhancement Mathematics", "Junior Enhancement English", "Junior Enhancement Science", "Junior Enhancement History", "Sport", "Physical Education", "Art", "Homework Club", "Instrumental Music", "Design and Technologies", "Design and Materials", "Pastoral", "Visual Communication Design", "Geography"];
     const days = ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7", "Day 8", "Day 9", "Day 10"];
-    const periods = [0, 1, 2, 3, 4, 5, 6, 7];
-    let lastUploadedData = null;
+
+    const rowDefinitions = [
+        { key: "period 0", label: "P0", rowClass: "row-p0p7" },
+        { key: "pastoral", label: "Pastoral", rowClass: "row-pastoral" },
+        { key: "period 1", label: "P1", rowClass: "row-main" },
+        { key: "period 2", label: "P2", rowClass: "row-main" },
+        { key: "period 3", label: "P3", rowClass: "row-main" },
+        { key: "period 4", label: "P4", rowClass: "row-main" },
+        { key: "period 5", label: "P5", rowClass: "row-main" },
+        { key: "period 6", label: "P6", rowClass: "row-main" },
+        { key: "period 7", label: "P7", rowClass: "row-p0p7" }
+    ];
 
     function init() {
         const header = document.getElementById('dayHeaders');
         const body = document.getElementById('timetableBody');
-        days.forEach(d => { let th = document.createElement('th'); th.innerText = d; header.appendChild(th); });
+        days.forEach(d => {
+            let th = document.createElement('th');
+            th.innerText = d;
+            header.appendChild(th);
+        });
 
-        periods.forEach(p => {
+        rowDefinitions.forEach(def => {
             let tr = document.createElement('tr');
-            tr.dataset.period = p;
-            if (p === 0 || p === 7) {
-                tr.classList.add('extra-period-row');
-                tr.style.display = 'none';
-            }
-            tr.innerHTML = `<td class="period-col">P${p}<br><input type="text" class="time-input" placeholder="0:00"><span class="time-display-print" style="display:none"></span></td>`;
+            tr.dataset.periodKey = def.key;
+            tr.className = def.rowClass;
+            tr.innerHTML = `<td class="period-col">${def.label}<br><input type="text" class="time-input" placeholder="0:00"><span class="time-display-print" style="display:none"></span></td>`;
+
             for (let d = 0; d < 10; d++) {
                 let td = document.createElement('td');
                 let sel = document.createElement('select');
@@ -398,9 +367,9 @@
                 sel.onchange = function() { adjustFont(this); };
                 td.appendChild(sel);
 
-                let codeDiv = document.createElement('div');
-                codeDiv.className = "class-code";
-                td.appendChild(codeDiv);
+                let classCodeDiv = document.createElement('div');
+                classCodeDiv.className = "class-code";
+                td.appendChild(classCodeDiv);
 
                 let roomDiv = document.createElement('div');
                 roomDiv.className = "room-code";
@@ -414,98 +383,113 @@
             }
             body.appendChild(tr);
         });
+
+        applyToggles();
     }
 
-    function parseDetails(details) {
+    function parseSlotDetails(details) {
         if (!details) return { classCode: "", room: "", teacher: "" };
         const cleaned = details.replace(/\s+/g, ' ').trim();
 
-        const codeMatch = cleaned.match(/^(\([^)]+\))/);
-        const classCode = codeMatch ? codeMatch[1] : "";
+        let classCode = "";
+        let remainder = cleaned;
 
-        const afterCode = cleaned.replace(/^\([^)]+\)\s*/, '').trim();
-        const roomMatch = afterCode.match(/^([A-Z]{1,3}\d+\.\d+)\b/i);
-        const room = roomMatch ? roomMatch[1] : "";
-        const teacher = room ? afterCode.replace(roomMatch[0], '').trim() : afterCode;
+        // Extract class code in parentheses, e.g., (27_09SRO1A)
+        const codeMatch = cleaned.match(/^(\([^)]+\))\s*(.*)$/);
+        if (codeMatch) {
+            classCode = codeMatch[1].trim();
+            remainder = codeMatch[2].trim();
+        }
+
+        // Extract room code at start of remainder (e.g., F0.1, M0.3, OH1.2, M1.3) and separate teacher name
+        let room = "";
+        let teacher = remainder;
+        const roomMatch = remainder.match(/^([A-Z]{1,4}\d+(?:\.\d+)?)\b\s*(.*)$/i);
+        if (roomMatch) {
+            room = roomMatch[1].trim();
+            teacher = roomMatch[2].trim();
+        }
 
         return { classCode, room, teacher };
     }
 
     function populateTimetable(timetableData) {
-        lastUploadedData = timetableData;
-        const showYear = document.getElementById('toggleYear').checked;
         const rows = document.querySelectorAll('#timetableBody tr');
 
         rows.forEach(tr => {
-            const p = parseInt(tr.dataset.period, 10);
-            const periodEntry = timetableData.find(item => item.period.trim().toLowerCase() === `period ${p}`);
+            const pKey = tr.dataset.periodKey;
+            const periodEntry = timetableData.find(item => item.period && item.period.trim().toLowerCase() === pKey);
             if (!periodEntry) return;
 
             const timeInput = tr.querySelector('.time-input');
-            if (timeInput && periodEntry.time) {
-                timeInput.value = periodEntry.time;
+            if (timeInput) {
+                timeInput.value = periodEntry.time || "";
             }
 
             const cells = tr.querySelectorAll('td:not(.period-col)');
-            periodEntry.slots.forEach((slot, dayIdx) => {
+            (periodEntry.slots || []).forEach((slot, dayIdx) => {
                 const td = cells[dayIdx];
                 if (!td) return;
 
                 const sel = td.querySelector('.subject-select');
-                const codeDiv = td.querySelector('.class-code');
+                const classCodeDiv = td.querySelector('.class-code');
                 const roomDiv = td.querySelector('.room-code');
                 const teacherDiv = td.querySelector('.teacher-name');
 
                 td.style.backgroundColor = slot.bg || "";
 
                 if (slot.className) {
-                    const fullSubject = slot.className.trim();
-                    const strippedSubject = fullSubject.replace(/^Year\s+\d+\s+/i, '').trim();
+                    const fullClassName = slot.className.trim();
+                    const strippedClassName = fullClassName.replace(/^Year\s+\d+\s+/i, '').trim();
 
-                    sel.dataset.fullSubject = fullSubject;
-                    sel.dataset.strippedSubject = strippedSubject;
+                    sel.dataset.fullSubject = fullClassName;
+                    sel.dataset.strippedSubject = strippedClassName;
 
-                    const targetSubject = showYear ? fullSubject : strippedSubject;
-                    setSelectSubject(sel, targetSubject);
+                    setSelectSubjectText(sel);
                 } else {
                     delete sel.dataset.fullSubject;
                     delete sel.dataset.strippedSubject;
                     sel.value = "";
                 }
 
-                const { classCode, room, teacher } = parseDetails(slot.details);
-                if (codeDiv) codeDiv.innerText = classCode;
-                if (roomDiv) roomDiv.innerText = room;
-                if (teacherDiv) teacherDiv.innerText = teacher;
+                const parsed = parseSlotDetails(slot.details);
+                classCodeDiv.innerText = parsed.classCode;
+                roomDiv.innerText = parsed.room;
+                teacherDiv.innerText = parsed.teacher;
             });
         });
 
         applyToggles();
     }
 
-    function setSelectSubject(sel, subjectText) {
-        if (!subjectText) {
-            sel.value = "";
-            return;
-        }
+    function setSelectSubjectText(sel) {
+        if (!sel.dataset.fullSubject) return;
+        const showYear = document.getElementById('toggleYear').checked;
+        const targetText = showYear ? sel.dataset.fullSubject : sel.dataset.strippedSubject;
+
         let matchedOption = Array.from(sel.options).find(opt =>
-            opt.value.toLowerCase() === subjectText.toLowerCase()
+            opt.value.toLowerCase() === targetText.toLowerCase() ||
+            (!showYear && opt.value !== "" && targetText.toLowerCase().includes(opt.value.toLowerCase()))
         );
 
-        if (!matchedOption) {
-            matchedOption = Array.from(sel.options).find(opt =>
-                opt.value !== "" && subjectText.toLowerCase().includes(opt.value.toLowerCase()) && !/^Year\s+\d+/i.test(subjectText)
-            );
-        }
-
-        if (matchedOption) {
+        if (matchedOption && showYear) {
+            // If Year Level is ON, display the full string with Year X
+            let exactOpt = Array.from(sel.options).find(opt => opt.value.toLowerCase() === targetText.toLowerCase());
+            if (!exactOpt) {
+                exactOpt = document.createElement('option');
+                exactOpt.value = targetText;
+                exactOpt.text = targetText;
+                sel.add(exactOpt);
+            }
+            sel.value = exactOpt.value;
+        } else if (matchedOption) {
             sel.value = matchedOption.value;
         } else {
             let newOpt = document.createElement('option');
-            newOpt.value = subjectText;
-            newOpt.text = subjectText;
+            newOpt.value = targetText;
+            newOpt.text = targetText;
             sel.add(newOpt);
-            sel.value = subjectText;
+            sel.value = targetText;
         }
         adjustFont(sel);
     }
@@ -513,41 +497,37 @@
     function applyToggles() {
         const showRoom = document.getElementById('toggleRoom').checked;
         const showTeacher = document.getElementById('toggleTeacher').checked;
-        const showYear = document.getElementById('toggleYear').checked;
         const showClassCode = document.getElementById('toggleClassCode').checked;
         const showTimes = document.getElementById('toggleTimes').checked;
-        const showExtraPeriods = document.getElementById('toggleExtraPeriods').checked;
+        const showPastoral = document.getElementById('togglePastoral').checked;
+        const showP0P7 = document.getElementById('toggleP0P7').checked;
 
         document.querySelectorAll('.room-code').forEach(el => {
-            el.style.display = showRoom ? 'block' : 'none';
+            el.style.display = (showRoom && el.innerText.trim() !== "") ? 'block' : 'none';
         });
 
         document.querySelectorAll('.teacher-name').forEach(el => {
-            el.style.display = showTeacher ? 'block' : 'none';
+            el.style.display = (showTeacher && el.innerText.trim() !== "") ? 'block' : 'none';
         });
 
         document.querySelectorAll('.class-code').forEach(el => {
-            el.style.display = showClassCode ? 'block' : 'none';
-        });
-
-        document.querySelectorAll('.time-input').forEach(el => {
-            el.style.display = showTimes ? 'inline-block' : 'none';
-        });
-
-        const table = document.getElementById('timetableTable');
-        if (table) {
-            table.classList.toggle('hide-times', !showTimes);
-        }
-
-        document.querySelectorAll('.extra-period-row').forEach(tr => {
-            tr.style.display = showExtraPeriods ? 'table-row' : 'none';
+            el.style.display = (showClassCode && el.innerText.trim() !== "") ? 'block' : 'none';
         });
 
         document.querySelectorAll('.subject-select').forEach(sel => {
-            if (sel.dataset.fullSubject) {
-                const target = showYear ? sel.dataset.fullSubject : sel.dataset.strippedSubject;
-                setSelectSubject(sel, target);
-            }
+            setSelectSubjectText(sel);
+        });
+
+        document.querySelectorAll('.time-input').forEach(inp => {
+            inp.style.display = showTimes ? 'inline-block' : 'none';
+        });
+
+        document.querySelectorAll('.row-pastoral').forEach(tr => {
+            tr.style.display = showPastoral ? '' : 'none';
+        });
+
+        document.querySelectorAll('.row-p0p7').forEach(tr => {
+            tr.style.display = showP0P7 ? '' : 'none';
         });
     }
 
@@ -576,6 +556,8 @@
             } catch (error) {
                 console.error(error);
                 alert("Error parsing JSON file.");
+            } finally {
+                event.target.value = '';
             }
         };
         reader.readAsText(file);
@@ -591,7 +573,13 @@
     function handlePrint() {
         const showTimes = document.getElementById('toggleTimes').checked;
         document.querySelectorAll('.time-input').forEach(i => {
-            i.nextElementSibling.innerText = showTimes ? i.value : "";
+            const span = i.nextElementSibling;
+            span.innerText = i.value;
+            if (showTimes && i.value.trim() !== "") {
+                span.classList.add('show-time');
+            } else {
+                span.classList.remove('show-time');
+            }
         });
         window.print();
     }
