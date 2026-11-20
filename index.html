@@ -7,9 +7,8 @@
     <link href="fontawesome/css/brands.css" rel="stylesheet" />
     <link href="fontawesome/css/solid.css" rel="stylesheet" />
     <link rel="icon" href="icon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', sans-serif; background-color: #8f70d1; }
+        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: #8f70d1; }
         .container { display: flex; flex-direction: column; height: 100vh; width: 100vw; background: white; padding: 10px; box-sizing: border-box; }
         h1 { color: #003366; text-align: center; border-bottom: 2px solid black; margin: 0 0 5px 0; font-size: 1.2em; }
         .controls { display: flex; justify-content: space-between; margin-bottom: 5px; }
@@ -30,18 +29,91 @@
         /* The Subject Text Styling */
         select.subject-select { 
             width: 100%; border: none; background: transparent; 
-            text-align: center; font-family: 'Roboto Condensed', sans-serif;
+            text-align: center; font-family: inherit;
             font-size: 0.7rem; appearance: none; cursor: pointer;
             display: block; white-space: normal;
         }
 
-        /* Room Code Styling underneath subject */
+        /* Room Code & Teacher Styling underneath subject */
         .room-code {
             font-size: 0.65rem;
             font-weight: bold;
             color: #333;
             margin-top: 2px;
             display: block;
+        }
+
+        .teacher-name {
+            font-size: 0.6rem;
+            color: #444;
+            margin-top: 1px;
+            display: block;
+        }
+
+        /* Bottom Toggle Switches Bar */
+        .toggle-bar {
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin-top: 6px;
+            margin-bottom: 0;
+            padding: 4px 10px;
+            background: #f1f3f5;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .toggle-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #003366;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 18px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: 0.2s;
+            border-radius: 18px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.2s;
+            border-radius: 50%;
+        }
+
+        .switch input:checked + .slider {
+            background-color: steelblue;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(16px);
         }
 
         .nav-links {
@@ -82,28 +154,21 @@
         }
 
         @media print {
-    @page { size: A5 landscape; margin: 0.2cm; }
-    * { 
-        font-weight: normal !important; 
-    }
-    .controls, .time-input { display: none !important; }
-    .period-col { width: 68px !important; }
-    .time-display-print { 
-        display: block !important; 
-        font-size: 0.45rem !important; 
-        white-space: nowrap !important; 
-    }
-    table { height: 90%; }
-    select.subject-select { 
-        font-weight: normal !important; 
-        color: black; 
-        text-transform: none; 
-        font-size: 0.55rem; 
-    }
-    .room-code { font-weight: normal !important; font-size: 0.5rem; color: black; }
-    th { background-color: #eee !important; color: black !important; font-weight: normal !important; }
-}
-
+            @page { size: A5 landscape; margin: 0.2cm; }
+            * { font-weight: normal !important; }
+            .controls, .time-input { display: none !important; }
+            .period-col { width: 68px !important; }
+            .time-display-print { 
+                display: block !important; 
+                font-size: 0.45rem !important; 
+                white-space: nowrap !important; 
+            }
+            table { height: 90%; }
+            select.subject-select { font-family: inherit; font-weight: normal !important; color: black; font-size: 0.55rem; }
+            .room-code { font-weight: normal !important; font-size: 0.5rem; color: black; }
+            .teacher-name { font-weight: normal !important; font-size: 0.45rem; color: black; }
+            th { background-color: #eee !important; color: black !important; font-weight: normal !important; }
+        }
     </style>
 </head>
 <body>
@@ -131,7 +196,7 @@
         <br>
         <button class="print-btn" onclick="handlePrint()">Print / Save as PDF</button>
         <a href="downloadusage.html">How To Upload Your Timetable</a>
-        <a href="javascript:(function(){var row=document.querySelector('.timetable-small');if(!row)return;var periodMap={};var currentDayIndex=-1;row.querySelectorAll('table tr').forEach(tr=>{var th=tr.querySelector('th');var subjectEl=tr.querySelector('td .timetable-subject');if(th&&subjectEl){var fullTimeText=th.innerText||'';var metaText=tr.querySelector('time.meta')?.innerText||%27%27;var periodName=fullTimeText.replace(metaText,%27%27).trim();var className=subjectEl.querySelector(%27a%27)?.innerText.trim()||%27%27;var extraDiv=subjectEl.querySelector(%27div%27);var extraText=extraDiv?extraDiv.innerText.replace(className,%27%27).trim():%27%27;var bg=subjectEl.style.backgroundColor||%27%27;if(periodName.toLowerCase().includes(%27period 0%27)){currentDayIndex++;}if(!periodMap[periodName]){periodMap[periodName]={time:metaText.trim(),slots:[]};}while(periodMap[periodName].slots.length<currentDayIndex){periodMap[periodName].slots.push({className:%27%27,details:%27%27,bg:%27%27});}periodMap[periodName].slots[currentDayIndex]={className:className,details:extraText,bg:bg};}});var cleanData=[];for(var pName in periodMap){if(periodMap.hasOwnProperty(pName)){var slotsArray=[];for(var i=0;i<=currentDayIndex;i++){slotsArray.push(periodMap[periodName].slots[i]||{className:%27%27,details:%27%27,bg:%27%27});}cleanData.push({period:pName,time:periodMap[pName].time,slots:slotsArray});}}var rawStr=JSON.stringify(cleanData);var encStr=btoa(unescape(encodeURIComponent(rawStr)));var blob=new Blob([JSON.stringify({secureData:encStr},null,2)],{type:%27application/json%27});var a=document.createElement(%27a%27);a.href=URL.createObjectURL(blob);a.download=%27grid_timetable.json%27;document.body.appendChild(a);a.click();document.body.removeChild(a);})();">Download Timetable</a>
+        <a href="javascript:(function(){var row=document.querySelector('.timetable-small');if(!row)return;var periodMap={};var currentDayIndex=-1;row.querySelectorAll('table tr').forEach(tr=>{var th=tr.querySelector('th');var subjectEl=tr.querySelector('td .timetable-subject');if(th&&subjectEl){var fullTimeText=th.innerText||'';var metaText=tr.querySelector('time.meta')?.innerText||%27%27;var periodName=fullTimeText.replace(metaText,%27%27).trim();var className=subjectEl.querySelector(%27a%27)?.innerText.trim()||%27%27;var extraDiv=subjectEl.querySelector(%27div%27);var extraText=extraDiv?extraDiv.innerText.replace(className,%27%27).trim():%27%27;var bg=subjectEl.style.backgroundColor||%27%27;if(periodName.toLowerCase().includes(%27period 0%27)){currentDayIndex++;}if(!periodMap[periodName]){periodMap[periodName]={time:metaText.trim(),slots:[]};}while(periodMap[periodName].slots.length<currentDayIndex){periodMap[periodName].slots.push({className:%27%27,details:%27%27,bg:%27%27});}periodMap[periodName].slots[currentDayIndex]={className:className,details:extraText,bg:bg};}});var cleanData=[];for(var pName in periodMap){if(periodMap.hasOwnProperty(pName)){var slotsArray=[];for(var i=0;i<=currentDayIndex;i++){slotsArray.push(periodMap[periodName].slots[i]||{className:%27%27,details:%27%27,bg:%27%27});}cleanData.push({period:pName,time:periodMap[periodName].time,slots:slotsArray});}}var rawStr=JSON.stringify(cleanData);var encStr=btoa(unescape(encodeURIComponent(rawStr)));var blob=new Blob([JSON.stringify({secureData:encStr},null,2)],{type:%27application/json%27});var a=document.createElement(%27a%27);a.href=URL.createObjectURL(blob);a.download=%27grid_timetable.json%27;document.body.appendChild(a);a.click();document.body.removeChild(a);})();">Download Timetable</a>
         <!-- Upload UI Component Elements -->
         <div style="margin: 10px 0; display: inline-block;">
             <input type="file" id="timetableUpload" accept=".json" style="display: none;">
@@ -151,6 +216,30 @@
         </thead>
         <tbody id="timetableBody"></tbody>
     </table>
+
+    <div class="controls toggle-bar">
+        <label class="toggle-item">
+            <span class="switch">
+                <input type="checkbox" id="toggleRoom" checked onchange="applyDisplayToggles()">
+                <span class="slider"></span>
+            </span>
+            Room Codes
+        </label>
+        <label class="toggle-item">
+            <span class="switch">
+                <input type="checkbox" id="toggleTeacher" onchange="applyDisplayToggles()">
+                <span class="slider"></span>
+            </span>
+            Teacher's Name
+        </label>
+        <label class="toggle-item">
+            <span class="switch">
+                <input type="checkbox" id="toggleYear" onchange="applyDisplayToggles()">
+                <span class="slider"></span>
+            </span>
+            Year Level
+        </label>
+    </div>
 </div>
 
 <script>
@@ -170,12 +259,21 @@
                 let sel = document.createElement('select');
                 sel.className = "subject-select";
                 sel.innerHTML = `<option value="">--</option>` + subjects.map(s => `<option value="${s}">${s}</option>`).join('');
-                sel.onchange = function() { adjustFont(this); };
+                sel.onchange = function() {
+                    this.dataset.baseSubject = this.value;
+                    this.dataset.yearPrefix = "";
+                    adjustFont(this);
+                };
                 td.appendChild(sel);
 
                 let roomDiv = document.createElement('div');
                 roomDiv.className = "room-code";
                 td.appendChild(roomDiv);
+
+                let teacherDiv = document.createElement('div');
+                teacherDiv.className = "teacher-name";
+                teacherDiv.style.display = "none";
+                td.appendChild(teacherDiv);
 
                 tr.appendChild(td);
             }
@@ -183,10 +281,59 @@
         }
     }
 
-    function extractRoomCode(details) {
-        if (!details) return "";
-        const match = details.match(/\)\s*([A-Z]{1,3}\d+\.\d+)\b/i);
-        return match ? match[1] : "";
+    function parseSlotDetails(details) {
+        if (!details) return { room: "", teacher: "" };
+        const cleaned = details.replace(/\s+/g, ' ').trim();
+        // Remove class code like (27_09SRO1A)
+        const afterCode = cleaned.replace(/^\([^)]*\)\s*/, '').trim();
+        const roomMatch = afterCode.match(/^([A-Z]{1,3}\d+\.\d+)\b\s*(.*)$/i);
+        if (roomMatch) {
+            return {
+                room: roomMatch[1],
+                teacher: roomMatch[2].trim()
+            };
+        }
+        return {
+            room: "",
+            teacher: afterCode
+        };
+    }
+
+    function applyDisplayToggles() {
+        const showRoom = document.getElementById('toggleRoom').checked;
+        const showTeacher = document.getElementById('toggleTeacher').checked;
+        const showYear = document.getElementById('toggleYear').checked;
+
+        document.querySelectorAll('#timetableBody td:not(.period-col)').forEach(td => {
+            const sel = td.querySelector('.subject-select');
+            const roomDiv = td.querySelector('.room-code');
+            const teacherDiv = td.querySelector('.teacher-name');
+
+            if (roomDiv) {
+                roomDiv.style.display = (showRoom && roomDiv.innerText.trim() !== "") ? "block" : "none";
+            }
+            if (teacherDiv) {
+                teacherDiv.style.display = (showTeacher && teacherDiv.innerText.trim() !== "") ? "block" : "none";
+            }
+
+            if (sel && sel.dataset.baseSubject !== undefined) {
+                const base = sel.dataset.baseSubject;
+                const prefix = sel.dataset.yearPrefix || "";
+                if (!base) {
+                    sel.value = "";
+                } else {
+                    const targetText = (showYear && prefix) ? `${prefix} ${base}` : base;
+                    if (!Array.from(sel.options).some(opt => opt.value === targetText)) {
+                        let newOpt = document.createElement('option');
+                        newOpt.value = targetText;
+                        newOpt.text = targetText;
+                        sel.add(newOpt);
+                    }
+                    sel.value = targetText;
+                }
+                adjustFont(sel);
+            }
+        });
     }
 
     function populateTimetable(timetableData) {
@@ -209,36 +356,40 @@
 
                 const sel = td.querySelector('.subject-select');
                 const roomDiv = td.querySelector('.room-code');
+                const teacherDiv = td.querySelector('.teacher-name');
 
                 td.style.backgroundColor = slot.bg || "";
 
                 if (slot.className) {
-                    let cleanSubject = slot.className.replace(/^Year\s+\d+\s+/i, '').trim();
+                    const yearMatch = slot.className.match(/^(Year\s+\d+)\s+(.*)$/i);
+                    const yearPrefix = yearMatch ? yearMatch[1] : "";
+                    const rawSubject = yearMatch ? yearMatch[2].trim() : slot.className.trim();
 
                     let matchedOption = Array.from(sel.options).find(opt =>
-                        opt.value.toLowerCase() === cleanSubject.toLowerCase() ||
-                        (cleanSubject.toLowerCase().includes(opt.value.toLowerCase()) && opt.value !== "")
+                        opt.value.toLowerCase() === rawSubject.toLowerCase() ||
+                        (rawSubject.toLowerCase().includes(opt.value.toLowerCase()) && opt.value !== "")
                     );
 
-                    if (matchedOption) {
-                        sel.value = matchedOption.value;
-                    } else {
-                        let newOpt = document.createElement('option');
-                        newOpt.value = cleanSubject;
-                        newOpt.text = cleanSubject;
-                        sel.add(newOpt);
-                        sel.value = cleanSubject;
-                    }
-                    adjustFont(sel);
+                    const baseSubject = matchedOption ? matchedOption.value : rawSubject;
+                    sel.dataset.baseSubject = baseSubject;
+                    sel.dataset.yearPrefix = yearPrefix;
                 } else {
+                    sel.dataset.baseSubject = "";
+                    sel.dataset.yearPrefix = "";
                     sel.value = "";
                 }
 
+                const parsed = parseSlotDetails(slot.details);
                 if (roomDiv) {
-                    roomDiv.innerText = extractRoomCode(slot.details);
+                    roomDiv.innerText = parsed.room;
+                }
+                if (teacherDiv) {
+                    teacherDiv.innerText = parsed.teacher;
                 }
             });
         }
+
+        applyDisplayToggles();
     }
 
     document.getElementById('timetableUpload').addEventListener('change', function(event) {
