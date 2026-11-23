@@ -9,6 +9,7 @@
     <link rel="icon" href="icon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root { --custom-font: 'Roboto Condensed', sans-serif; }
         html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', sans-serif; background-color: #8f70d1; }
         .container { display: flex; flex-direction: column; height: 100vh; width: 100vw; background: white; padding: 10px; box-sizing: border-box; }
         
@@ -18,7 +19,7 @@
             text-align: center;
             border: none;
             background: transparent;
-            font-family: 'Roboto Condensed', sans-serif;
+            font-family: var(--custom-font);
             font-size: 1.2em;
             font-weight: bold;
             width: 100%;
@@ -77,17 +78,17 @@
             background: #3a6ea5;
         }
 
-        table { width: 100%; flex-grow: 1; border-collapse: collapse; border: 2px solid black; table-layout: fixed; }
-        th, td { border: 1px solid black; text-align: center; vertical-align: middle; padding: 2px; overflow: hidden; word-wrap: break-word; line-height: 1.1; }
+        table { width: 100%; flex-grow: 1; border-collapse: collapse; border: 2px solid black; table-layout: fixed; font-family: var(--custom-font); }
+        th, td { border: 1px solid black; text-align: center; vertical-align: middle; padding: 2px; overflow: hidden; word-wrap: break-word; line-height: 1.1; font-family: var(--custom-font); }
         
         th { background-color: royalblue; color: white; font-size: 0.6rem; height: 32px; }
         .period-col { background-color: #f8f9fa; font-weight: bold; width: 65px; font-size: 0.65rem; }
-        .time-input { width: 92%; font-family: 'Roboto Condensed', sans-serif; font-size: 0.6rem; border: 1px solid #ccc; text-align: center; margin-top: 2px; }
+        .time-input { width: 92%; font-family: var(--custom-font); font-size: 0.6rem; border: 1px solid #ccc; text-align: center; margin-top: 2px; }
 
         /* Subject Dropdown Styling */
         select.subject-select { 
             width: 100%; border: none; background: transparent; 
-            text-align: center; font-family: 'Roboto Condensed', sans-serif;
+            text-align: center; font-family: var(--custom-font);
             font-size: 0.7rem; appearance: none; cursor: pointer;
             display: block; white-space: normal;
         }
@@ -130,6 +131,24 @@
             color: #212529;
             cursor: pointer;
             user-select: none;
+        }
+        .font-control {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #212529;
+            border-left: 1px solid #ccc;
+            padding-left: 14px;
+        }
+        .font-input {
+            font-family: inherit;
+            font-size: 0.78rem;
+            padding: 2px 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 120px;
         }
         .switch {
             position: relative;
@@ -207,6 +226,9 @@
                 font-family: 'Roboto Condensed', sans-serif !important;
                 font-weight: normal !important; 
             }
+            table, table * {
+                font-family: var(--custom-font) !important;
+            }
             .controls, .action-bar, .toggle-bar, .time-input { display: none !important; }
             .title-wrapper { border-bottom: 1px solid black; }
             #timetableTitle { color: black !important; font-size: 0.9rem !important; }
@@ -250,7 +272,7 @@
     <div class="controls" style="height: 55px;"></div>
 
     <div class="action-bar"> 
-        <p>A5 and A4 print size instructions are lised in the info tab. To upload your timetable read the info tab.</p>
+        <p>A5 and A4 print size instructions are lised in the info tab. To upload your timetable read the info tab. To change font to a different one that is not listed go to info tab.</p>
         <div class="action-buttons">
             <button class="print-btn" onclick="handlePrint()">Print / Save as PDF</button>
             <input type="file" id="timetableUpload" accept=".json" style="display: none;">
@@ -323,6 +345,22 @@
             </span>
             Period 0 &amp; 7
         </label>
+        <div class="font-control">
+            <label for="customFontInput">Font Name:</label>
+            <input type="text" id="customFontInput" class="font-input" list="fontSuggestions" placeholder="e.g. Arial, Poppins">
+            <datalist id="fontSuggestions">
+                <option value="Roboto Condensed">
+                <option value="Arial">
+                <option value="Calibri">
+                <option value="Comic Sans MS">
+                <option value="Courier New">
+                <option value="Georgia">
+                <option value="Montserrat">
+                <option value="Open Sans">
+                <option value="Poppins">
+                <option value="Times New Roman">
+            </datalist>
+        </div>
     </div>
 </div>
 
@@ -581,6 +619,22 @@
         });
         window.print();
     }
+
+    const customFontInput = document.getElementById('customFontInput');
+    const googleFontLink = document.createElement('link');
+    googleFontLink.rel = 'stylesheet';
+    document.head.appendChild(googleFontLink);
+
+    customFontInput.addEventListener('input', function(e) {
+        const fontName = e.target.value.trim();
+        if (!fontName) {
+            document.documentElement.style.setProperty('--custom-font', "'Roboto Condensed', sans-serif");
+            return;
+        }
+        const formattedName = fontName.replace(/\s+/g, '+');
+        googleFontLink.href = `https://fonts.googleapis.com/css2?family=${formattedName}:wght@400;700&display=swap`;
+        document.documentElement.style.setProperty('--custom-font', `'${fontName}', sans-serif`);
+    });
 
     window.onload = init;
 </script>
