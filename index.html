@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>Timetable Generator</title>
     <link href="fontawesome/css/fontawesome.css" rel="stylesheet" />
-      <link href="fontawesome/css/brands.css" rel="stylesheet" />
-      <link href="fontawesome/css/solid.css" rel="stylesheet" />
-      <link rel="icon" href="icon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link href="fontawesome/css/brands.css" rel="stylesheet" />
+    <link href="fontawesome/css/solid.css" rel="stylesheet" />
+    <link rel="icon" href="icon.ico" type="image/x-icon">
     <style>
         :root { --custom-font: 'Roboto Condensed', Arial, sans-serif; }
         html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', Arial, sans-serif; background-color: #8f70d1; }
@@ -83,29 +82,39 @@
         
         th { background-color: royalblue; color: white; font-size: 0.6rem; height: 32px; }
         .period-col { background-color: #f8f9fa; font-weight: bold; width: 65px; font-size: 0.65rem; }
-        .time-input { width: 92%; font-family: var(--custom-font); font-size: 0.6rem; border: 1px solid #ccc; text-align: center; margin-top: 2px; }
+        .time-input { 
+            width: 95%; 
+            font-family: var(--custom-font); 
+            font-size: 0.6rem; 
+            border: 1px solid #ccc; 
+            text-align: center; 
+            margin-top: 2px; 
+            box-sizing: border-box;
+            padding: 1px;
+        }
 
-        /* Subject Combo Input Styling */
-        input.subject-select { 
+        /* Subject Textarea Styling (allows wrapping + auto-resizing) */
+        textarea.subject-select { 
             width: 100%; 
             border: none; 
             background: transparent; 
             text-align: center; 
             font-family: var(--custom-font);
             font-size: 0.7rem; 
+            line-height: 1.1;
             cursor: text;
             display: block; 
             box-sizing: border-box;
             outline: none;
             padding: 1px 2px;
+            resize: none;
+            overflow: hidden;
+            white-space: normal;
+            word-break: break-word;
+            margin: 0;
         }
-        input.subject-select:focus {
+        textarea.subject-select:focus {
             background-color: rgba(255, 255, 255, 0.75);
-        }
-        input.subject-select::-webkit-calendar-picker-indicator {
-            opacity: 0;
-            width: 0;
-            display: none !important;
         }
 
         /* Sub-elements inside cell */
@@ -114,6 +123,7 @@
             line-height: 1.1;
             margin-top: 1px;
             display: block;
+            word-break: break-word;
         }
         .room-code {
             font-weight: bold;
@@ -254,13 +264,12 @@
                 white-space: nowrap !important; 
             }
             table { height: 90%; }
-            input.subject-select { 
+            textarea.subject-select { 
                 font-weight: normal !important; 
                 color: black; 
                 text-transform: none !important; 
-                font-size: 0.55rem; 
             }
-            input.subject-select::placeholder {
+            textarea.subject-select::placeholder {
                 color: transparent;
             }
             .room-code, .teacher-name, .class-code { 
@@ -280,7 +289,7 @@
                 <a href="index.html" class="pagelink"><i class="fa-solid fa-calendar-days"></i> Timetable Generator</a>
             </div>
             <div class="nav-links">
-                <a href="cueGenerator.html" class="pagelink"><i class="fa-solid fa-book"></i></i> Flashcard Generator</a>
+                <a href="cueGenerator.html" class="pagelink"><i class="fa-solid fa-book"></i> Flashcard Generator</a>
             </div>
             <div class="nav-links">
                 <a href="info.html" class="pagelink"><i class="fa-solid fa-circle-info"></i> INFO</a>
@@ -303,8 +312,6 @@
     <div class="title-wrapper">
         <input type="text" id="timetableTitle" value="My Timetable" aria-label="Timetable Title">
     </div>
-
-    <datalist id="subjectList"></datalist>
 
     <table>
         <thead>
@@ -401,9 +408,6 @@
     ];
 
     function init() {
-        const subjectList = document.getElementById('subjectList');
-        subjectList.innerHTML = subjects.map(s => `<option value="${s}">`).join('');
-
         const header = document.getElementById('dayHeaders');
         const body = document.getElementById('timetableBody');
         days.forEach(d => {
@@ -416,16 +420,18 @@
             let tr = document.createElement('tr');
             tr.dataset.periodKey = def.key;
             tr.className = def.rowClass;
-            tr.innerHTML = `<td class="period-col">${def.label}<br><input type="text" class="time-input" placeholder="0:00"><span class="time-display-print" style="display:none"></span></td>`;
+            tr.innerHTML = `<td class="period-col">${def.label}<br><input type="text" class="time-input" placeholder="0:00" oninput="adjustTimeFont(this)"><span class="time-display-print" style="display:none"></span></td>`;
 
             for (let d = 0; d < 10; d++) {
                 let td = document.createElement('td');
                 
-                let inp = document.createElement('input');
-                inp.type = "text";
-                inp.setAttribute('list', 'subjectList');
+                let inp = document.createElement('textarea');
+                inp.rows = 1;
                 inp.className = "subject-select";
                 inp.placeholder = "--";
+                inp.onkeydown = function(e) {
+                    if (e.key === 'Enter') e.preventDefault();
+                };
                 inp.oninput = function() {
                     delete this.dataset.fullSubject;
                     delete this.dataset.strippedSubject;
@@ -488,6 +494,7 @@
             const timeInput = tr.querySelector('.time-input');
             if (timeInput) {
                 timeInput.value = periodEntry.time || "";
+                adjustTimeFont(timeInput);
             }
 
             const cells = tr.querySelectorAll('td:not(.period-col)');
@@ -514,6 +521,7 @@
                     delete inp.dataset.fullSubject;
                     delete inp.dataset.strippedSubject;
                     inp.value = "";
+                    adjustFont(inp);
                 }
 
                 const parsed = parseSlotDetails(slot.details);
@@ -527,7 +535,10 @@
     }
 
     function setSelectSubjectText(inp) {
-        if (!inp.dataset.fullSubject) return;
+        if (!inp.dataset.fullSubject) {
+            adjustFont(inp);
+            return;
+        }
         const showYear = document.getElementById('toggleYear').checked;
         const targetText = showYear ? inp.dataset.fullSubject : inp.dataset.strippedSubject;
 
@@ -569,6 +580,7 @@
 
         document.querySelectorAll('.time-input').forEach(inp => {
             inp.style.display = showTimes ? 'inline-block' : 'none';
+            if (showTimes) adjustTimeFont(inp);
         });
 
         document.querySelectorAll('.row-pastoral').forEach(tr => {
@@ -578,6 +590,8 @@
         document.querySelectorAll('.row-p0p7').forEach(tr => {
             tr.style.display = showP0P7 ? '' : 'none';
         });
+
+        fitAllText();
     }
 
     document.getElementById('timetableUpload').addEventListener('change', function(event) {
@@ -612,11 +626,65 @@
         reader.readAsText(file);
     });
 
+    /* Dynamically shrinks subject text to fit both the width and height of the cell */
     function adjustFont(el) {
-        const len = el.value.length;
-        if (len > 25) el.style.fontSize = "0.45rem";
-        else if (len > 15) el.style.fontSize = "0.55rem";
-        else el.style.fontSize = "0.7rem";
+        const td = el.closest('td');
+        if (!td || td.offsetParent === null) return;
+
+        let fontSize = 11.5; // Max font size in px (~0.72rem)
+        const minFontSize = 6.5; // Min readable font size in px
+
+        el.style.fontSize = fontSize + 'px';
+        el.style.height = 'auto';
+
+        if (!el.value.trim()) {
+            el.style.height = el.scrollHeight + 'px';
+            return;
+        }
+
+        // Calculate available height inside the cell minus any visible sub-labels (room, teacher, etc.)
+        const tdStyle = window.getComputedStyle(td);
+        const padV = parseFloat(tdStyle.paddingTop) + parseFloat(tdStyle.paddingBottom);
+        let extraHeight = 0;
+        td.querySelectorAll('.class-code, .room-code, .teacher-name').forEach(sub => {
+            if (sub.style.display !== 'none') {
+                extraHeight += sub.offsetHeight + 1;
+            }
+        });
+        const maxAllowedHeight = Math.max(14, td.clientHeight - padV - extraHeight);
+
+        // Shrink font until no single word overflows horizontally AND total wrapped lines fit vertically
+        while (fontSize > minFontSize) {
+            el.style.fontSize = fontSize + 'px';
+            el.style.height = 'auto';
+            const fitsWidth = el.scrollWidth <= el.clientWidth + 1;
+            const fitsHeight = el.scrollHeight <= maxAllowedHeight;
+            if (fitsWidth && fitsHeight) {
+                break;
+            }
+            fontSize -= 0.5;
+        }
+
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
+    }
+
+    /* Dynamically shrinks Period time inputs (like "8:50am-9:40am") so they never clip */
+    function adjustTimeFont(el) {
+        if (!el || el.offsetParent === null) return;
+        let fontSize = 9.5;
+        const minFontSize = 5.5;
+        el.style.fontSize = fontSize + 'px';
+
+        while (fontSize > minFontSize && el.scrollWidth > el.clientWidth) {
+            fontSize -= 0.5;
+            el.style.fontSize = fontSize + 'px';
+        }
+    }
+
+    function fitAllText() {
+        document.querySelectorAll('.subject-select').forEach(adjustFont);
+        document.querySelectorAll('.time-input').forEach(adjustTimeFont);
     }
 
     function handlePrint() {
@@ -639,9 +707,29 @@
         const fontName = e.target.value.trim();
         if (!fontName) {
             document.documentElement.style.setProperty('--custom-font', "'Roboto Condensed', Arial, sans-serif");
-            return;
+        } else {
+            document.documentElement.style.setProperty('--custom-font', `'${fontName}', sans-serif`);
         }
-        document.documentElement.style.setProperty('--custom-font', `'${fontName}', sans-serif`);
+        setTimeout(fitAllText, 50);
+    });
+
+    window.addEventListener('resize', fitAllText);
+    window.addEventListener('beforeprint', () => {
+        document.querySelectorAll('.subject-select').forEach(el => {
+            const currentPx = parseFloat(window.getComputedStyle(el).fontSize);
+            el.dataset.screenFontSize = el.style.fontSize;
+            el.style.fontSize = Math.max(5, currentPx * 0.78) + 'px';
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+        });
+    });
+    window.addEventListener('afterprint', () => {
+        document.querySelectorAll('.subject-select').forEach(el => {
+            if (el.dataset.screenFontSize) {
+                el.style.fontSize = el.dataset.screenFontSize;
+            }
+            adjustFont(el);
+        });
     });
 
     window.onload = init;
