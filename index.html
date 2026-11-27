@@ -7,6 +7,7 @@
     <link href="fontawesome/css/brands.css" rel="stylesheet" />
     <link href="fontawesome/css/solid.css" rel="stylesheet" />
     <link rel="icon" href="icon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --custom-font: 'Roboto Condensed', Arial, sans-serif; }
         html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', Arial, sans-serif; background-color: #8f70d1; }
@@ -115,6 +116,19 @@
         }
         textarea.subject-select:focus {
             background-color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* Print-only subject mirror so print layout never clips textarea height */
+        .subject-print {
+            display: none;
+            width: 100%;
+            text-align: center;
+            white-space: normal;
+            word-break: break-word;
+            line-height: 1.1;
+            margin: 0;
+            padding: 0 1px;
+            box-sizing: border-box;
         }
 
         /* Sub-elements inside cell */
@@ -254,7 +268,7 @@
             table, table * {
                 font-family: var(--custom-font) !important;
             }
-            .controls, .action-bar, .toggle-bar, .time-input { display: none !important; }
+            .controls, .action-bar, .toggle-bar, .time-input, textarea.subject-select { display: none !important; }
             .title-wrapper { border-bottom: 1px solid black; }
             #timetableTitle { color: black !important; font-size: 0.9rem !important; }
             .period-col { width: 68px !important; }
@@ -264,17 +278,16 @@
                 white-space: nowrap !important; 
             }
             table { height: 90%; }
-            textarea.subject-select { 
-                font-weight: normal !important; 
-                color: black; 
-                text-transform: none !important; 
-            }
-            textarea.subject-select::placeholder {
-                color: transparent;
+            .subject-print {
+                display: block !important;
+                color: black !important;
+                font-size: 0.52rem;
+                line-height: 1.1;
             }
             .room-code, .teacher-name, .class-code { 
                 font-weight: normal !important; 
-                font-size: 0.48rem; 
+                font-size: 0.46rem; 
+                line-height: 1.05;
                 color: black; 
             }
             th { background-color: #eee !important; color: black !important; font-weight: normal !important; }
@@ -438,6 +451,10 @@
                     adjustFont(this);
                 };
                 td.appendChild(inp);
+
+                let printDiv = document.createElement('div');
+                printDiv.className = "subject-print";
+                td.appendChild(printDiv);
 
                 let classCodeDiv = document.createElement('div');
                 classCodeDiv.className = "class-code";
@@ -631,8 +648,8 @@
         const td = el.closest('td');
         if (!td || td.offsetParent === null) return;
 
-        let fontSize = 11.5; // Max font size in px (~0.72rem)
-        const minFontSize = 6.5; // Min readable font size in px
+        let fontSize = 11.5;
+        const minFontSize = 6.5;
 
         el.style.fontSize = fontSize + 'px';
         el.style.height = 'auto';
@@ -642,7 +659,6 @@
             return;
         }
 
-        // Calculate available height inside the cell minus any visible sub-labels (room, teacher, etc.)
         const tdStyle = window.getComputedStyle(td);
         const padV = parseFloat(tdStyle.paddingTop) + parseFloat(tdStyle.paddingBottom);
         let extraHeight = 0;
@@ -653,7 +669,6 @@
         });
         const maxAllowedHeight = Math.max(14, td.clientHeight - padV - extraHeight);
 
-        // Shrink font until no single word overflows horizontally AND total wrapped lines fit vertically
         while (fontSize > minFontSize) {
             el.style.fontSize = fontSize + 'px';
             el.style.height = 'auto';
@@ -669,7 +684,6 @@
         el.style.height = el.scrollHeight + 'px';
     }
 
-    /* Dynamically shrinks Period time inputs (like "8:50am-9:40am") so they never clip */
     function adjustTimeFont(el) {
         if (!el || el.offsetParent === null) return;
         let fontSize = 9.5;
@@ -687,7 +701,7 @@
         document.querySelectorAll('.time-input').forEach(adjustTimeFont);
     }
 
-    function handlePrint() {
+    function syncPrintView() {
         const showTimes = document.getElementById('toggleTimes').checked;
         document.querySelectorAll('.time-input').forEach(i => {
             const span = i.nextElementSibling;
@@ -698,6 +712,31 @@
                 span.classList.remove('show-time');
             }
         });
+
+        document.querySelectorAll('#timetableBody td:not(.period-col)').forEach(td => {
+            const inp = td.querySelector('.subject-select');
+            const printDiv = td.querySelector('.subject-print');
+            if (!inp || !printDiv) return;
+
+            const text = inp.value.trim();
+            printDiv.innerText = text;
+
+            // Scale down slightly more if year level + long subject name + room/teacher are all shown
+            const len = text.length;
+            if (len > 30) {
+                printDiv.style.fontSize = '0.42rem';
+            } else if (len > 22) {
+                printDiv.style.fontSize = '0.46rem';
+            } else if (len > 15) {
+                printDiv.style.fontSize = '0.50rem';
+            } else {
+                printDiv.style.fontSize = '0.54rem';
+            }
+        });
+    }
+
+    function handlePrint() {
+        syncPrintView();
         window.print();
     }
 
@@ -714,23 +753,7 @@
     });
 
     window.addEventListener('resize', fitAllText);
-    window.addEventListener('beforeprint', () => {
-        document.querySelectorAll('.subject-select').forEach(el => {
-            const currentPx = parseFloat(window.getComputedStyle(el).fontSize);
-            el.dataset.screenFontSize = el.style.fontSize;
-            el.style.fontSize = Math.max(5, currentPx * 0.78) + 'px';
-            el.style.height = 'auto';
-            el.style.height = el.scrollHeight + 'px';
-        });
-    });
-    window.addEventListener('afterprint', () => {
-        document.querySelectorAll('.subject-select').forEach(el => {
-            if (el.dataset.screenFontSize) {
-                el.style.fontSize = el.dataset.screenFontSize;
-            }
-            adjustFont(el);
-        });
-    });
+    window.addEventListener('beforeprint', syncPrintView);
 
     window.onload = init;
 </script>
