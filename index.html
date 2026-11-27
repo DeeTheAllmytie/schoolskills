@@ -3,14 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Timetable Generator</title>
-    <link href="fontawesome/css/fontawesome.css" rel="stylesheet" />
-    <link href="fontawesome/css/brands.css" rel="stylesheet" />
-    <link href="fontawesome/css/solid.css" rel="stylesheet" />
-    <link rel="icon" href="icon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --custom-font: 'Roboto Condensed', sans-serif; }
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', sans-serif; background-color: #8f70d1; }
+        :root { --custom-font: 'Roboto Condensed', Arial, sans-serif; }
+        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Roboto Condensed', Arial, sans-serif; background-color: #8f70d1; }
         .container { display: flex; flex-direction: column; height: 100vh; width: 100vw; background: white; padding: 10px; box-sizing: border-box; }
         
         .title-wrapper { text-align: center; border-bottom: 2px solid black; margin: 0 0 6px 0; }
@@ -65,7 +60,7 @@
             padding: 0 12px;
             border-radius: 4px;
             cursor: pointer;
-            font-family: 'Roboto Condensed', sans-serif;
+            font-family: 'Roboto Condensed', Arial, sans-serif;
             font-weight: bold;
             font-size: 0.82rem;
             text-decoration: none;
@@ -85,12 +80,27 @@
         .period-col { background-color: #f8f9fa; font-weight: bold; width: 65px; font-size: 0.65rem; }
         .time-input { width: 92%; font-family: var(--custom-font); font-size: 0.6rem; border: 1px solid #ccc; text-align: center; margin-top: 2px; }
 
-        /* Subject Dropdown Styling */
-        select.subject-select { 
-            width: 100%; border: none; background: transparent; 
-            text-align: center; font-family: var(--custom-font);
-            font-size: 0.7rem; appearance: none; cursor: pointer;
-            display: block; white-space: normal;
+        /* Subject Combo Input Styling */
+        input.subject-select { 
+            width: 100%; 
+            border: none; 
+            background: transparent; 
+            text-align: center; 
+            font-family: var(--custom-font);
+            font-size: 0.7rem; 
+            cursor: text;
+            display: block; 
+            box-sizing: border-box;
+            outline: none;
+            padding: 1px 2px;
+        }
+        input.subject-select:focus {
+            background-color: rgba(255, 255, 255, 0.75);
+        }
+        input.subject-select::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            width: 0;
+            display: none !important;
         }
 
         /* Sub-elements inside cell */
@@ -239,11 +249,14 @@
                 white-space: nowrap !important; 
             }
             table { height: 90%; }
-            select.subject-select { 
+            input.subject-select { 
                 font-weight: normal !important; 
                 color: black; 
                 text-transform: none !important; 
                 font-size: 0.55rem; 
+            }
+            input.subject-select::placeholder {
+                color: transparent;
             }
             .room-code, .teacher-name, .class-code { 
                 font-weight: normal !important; 
@@ -259,13 +272,13 @@
     <div class="controls">
         <nav>
             <div class="nav-links">
-                <a href="index.html" class="pagelink"><i class="fa-solid fa-calendar-days"></i> Timetable Generator</a>
+                <a href="index.html" class="pagelink">Timetable Generator</a>
             </div>
             <div class="nav-links">
-                <a href="cueGenerator.html" class="pagelink"><i class="fa-solid fa-book"></i> Flashcard Generator</a>
+                <a href="cueGenerator.html" class="pagelink">Flashcard Generator</a>
             </div>
             <div class="nav-links">
-                <a href="info.html" class="pagelink"><i class="fa-solid fa-circle-info"></i> INFO</a>
+                <a href="info.html" class="pagelink">INFO</a>
             </div>
         </nav>
     </div>
@@ -285,6 +298,8 @@
     <div class="title-wrapper">
         <input type="text" id="timetableTitle" value="My Timetable" aria-label="Timetable Title">
     </div>
+
+    <datalist id="subjectList"></datalist>
 
     <table>
         <thead>
@@ -381,6 +396,9 @@
     ];
 
     function init() {
+        const subjectList = document.getElementById('subjectList');
+        subjectList.innerHTML = subjects.map(s => `<option value="${s}">`).join('');
+
         const header = document.getElementById('dayHeaders');
         const body = document.getElementById('timetableBody');
         days.forEach(d => {
@@ -397,11 +415,18 @@
 
             for (let d = 0; d < 10; d++) {
                 let td = document.createElement('td');
-                let sel = document.createElement('select');
-                sel.className = "subject-select";
-                sel.innerHTML = `<option value="">--</option>` + subjects.map(s => `<option value="${s}">${s}</option>`).join('');
-                sel.onchange = function() { adjustFont(this); };
-                td.appendChild(sel);
+                
+                let inp = document.createElement('input');
+                inp.type = "text";
+                inp.setAttribute('list', 'subjectList');
+                inp.className = "subject-select";
+                inp.placeholder = "--";
+                inp.oninput = function() {
+                    delete this.dataset.fullSubject;
+                    delete this.dataset.strippedSubject;
+                    adjustFont(this);
+                };
+                td.appendChild(inp);
 
                 let classCodeDiv = document.createElement('div');
                 classCodeDiv.className = "class-code";
@@ -430,14 +455,12 @@
         let classCode = "";
         let remainder = cleaned;
 
-        // Extract class code in parentheses, e.g., (27_09SRO1A)
         const codeMatch = cleaned.match(/^(\([^)]+\))\s*(.*)$/);
         if (codeMatch) {
             classCode = codeMatch[1].trim();
             remainder = codeMatch[2].trim();
         }
 
-        // Extract room code at start of remainder (e.g., F0.1, M0.3, OH1.2, M1.3) and separate teacher name
         let room = "";
         let teacher = remainder;
         const roomMatch = remainder.match(/^([A-Z]{1,4}\d+(?:\.\d+)?)\b\s*(.*)$/i);
@@ -467,7 +490,7 @@
                 const td = cells[dayIdx];
                 if (!td) return;
 
-                const sel = td.querySelector('.subject-select');
+                const inp = td.querySelector('.subject-select');
                 const classCodeDiv = td.querySelector('.class-code');
                 const roomDiv = td.querySelector('.room-code');
                 const teacherDiv = td.querySelector('.teacher-name');
@@ -478,14 +501,14 @@
                     const fullClassName = slot.className.trim();
                     const strippedClassName = fullClassName.replace(/^Year\s+\d+\s+/i, '').trim();
 
-                    sel.dataset.fullSubject = fullClassName;
-                    sel.dataset.strippedSubject = strippedClassName;
+                    inp.dataset.fullSubject = fullClassName;
+                    inp.dataset.strippedSubject = strippedClassName;
 
-                    setSelectSubjectText(sel);
+                    setSelectSubjectText(inp);
                 } else {
-                    delete sel.dataset.fullSubject;
-                    delete sel.dataset.strippedSubject;
-                    sel.value = "";
+                    delete inp.dataset.fullSubject;
+                    delete inp.dataset.strippedSubject;
+                    inp.value = "";
                 }
 
                 const parsed = parseSlotDetails(slot.details);
@@ -498,36 +521,21 @@
         applyToggles();
     }
 
-    function setSelectSubjectText(sel) {
-        if (!sel.dataset.fullSubject) return;
+    function setSelectSubjectText(inp) {
+        if (!inp.dataset.fullSubject) return;
         const showYear = document.getElementById('toggleYear').checked;
-        const targetText = showYear ? sel.dataset.fullSubject : sel.dataset.strippedSubject;
+        const targetText = showYear ? inp.dataset.fullSubject : inp.dataset.strippedSubject;
 
-        let matchedOption = Array.from(sel.options).find(opt =>
-            opt.value.toLowerCase() === targetText.toLowerCase() ||
-            (!showYear && opt.value !== "" && targetText.toLowerCase().includes(opt.value.toLowerCase()))
-        );
-
-        if (matchedOption && showYear) {
-            // If Year Level is ON, display the full string with Year X
-            let exactOpt = Array.from(sel.options).find(opt => opt.value.toLowerCase() === targetText.toLowerCase());
-            if (!exactOpt) {
-                exactOpt = document.createElement('option');
-                exactOpt.value = targetText;
-                exactOpt.text = targetText;
-                sel.add(exactOpt);
-            }
-            sel.value = exactOpt.value;
-        } else if (matchedOption) {
-            sel.value = matchedOption.value;
+        if (showYear) {
+            inp.value = targetText;
         } else {
-            let newOpt = document.createElement('option');
-            newOpt.value = targetText;
-            newOpt.text = targetText;
-            sel.add(newOpt);
-            sel.value = targetText;
+            const matchedSubject = subjects.find(s =>
+                s.toLowerCase() === targetText.toLowerCase() ||
+                targetText.toLowerCase().includes(s.toLowerCase())
+            );
+            inp.value = matchedSubject || targetText;
         }
-        adjustFont(sel);
+        adjustFont(inp);
     }
 
     function applyToggles() {
@@ -550,8 +558,8 @@
             el.style.display = (showClassCode && el.innerText.trim() !== "") ? 'block' : 'none';
         });
 
-        document.querySelectorAll('.subject-select').forEach(sel => {
-            setSelectSubjectText(sel);
+        document.querySelectorAll('.subject-select').forEach(inp => {
+            setSelectSubjectText(inp);
         });
 
         document.querySelectorAll('.time-input').forEach(inp => {
@@ -621,18 +629,13 @@
     }
 
     const customFontInput = document.getElementById('customFontInput');
-    const googleFontLink = document.createElement('link');
-    googleFontLink.rel = 'stylesheet';
-    document.head.appendChild(googleFontLink);
 
     customFontInput.addEventListener('input', function(e) {
         const fontName = e.target.value.trim();
         if (!fontName) {
-            document.documentElement.style.setProperty('--custom-font', "'Roboto Condensed', sans-serif");
+            document.documentElement.style.setProperty('--custom-font', "'Roboto Condensed', Arial, sans-serif");
             return;
         }
-        const formattedName = fontName.replace(/\s+/g, '+');
-        googleFontLink.href = `https://fonts.googleapis.com/css2?family=${formattedName}:wght@400;700&display=swap`;
         document.documentElement.style.setProperty('--custom-font', `'${fontName}', sans-serif`);
     });
 
